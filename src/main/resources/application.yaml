@@ -1,0 +1,83 @@
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: utf-8
+
+spring:
+  mvc:
+    static-path-pattern: /**
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  thymeleaf:
+    encoding: UTF-8
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      primary: master
+      strict: false
+      datasource:
+        login:
+          url: jdbc:mysql://localhost:3306/vhr_login?useUnicode=true&characterEncoding=utf8
+          username: root
+          password: 19981014
+        master:
+          url: jdbc:mysql://localhost:3306/vhr_master?useUnicode=true&characterEncoding=utf8
+          username: root
+          password: 19981014
+
+  redis:
+    host: 192.168.240.128
+    port: 6379
+    pool:
+      max-total: 8
+      max-idle: 8
+      max-wait-millis: -1
+      min-idle: 0
+
+  servlet:
+    multipart:
+      enabled: true
+      location: D:\OneDrive\vhr_springboot\src\main\resources\static\image
+      max-file-size: 10MB
+
+mybatis-plus:
+  #配置 mybatis-plus.Login_Mapper-locations
+  mapper-locations: classpath*:/mapper/**/*.xml
+  #配置日志，可查看生成的sql语句
+  Configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: false
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+
+ignore:
+  get:
+    - "/loginpage"
+    - "/static/**"
+    - "/css/**"
+    - "/js/**"
+    - "/lib/**"
+    - "/ueditor/**"
+    - "/image/**"
+    - "/images/**"
+    - "/uimage/**"
+  post:
+    - "/login"
+    - "/register"
+
+druid:
+  aop-patterns: com.huan.vhr_springboot.*
+  filters: stat,wall
+  stat-view-servlet:
+    enabled: true
+    login-username: admin
+    login-password: 111
+  web-stat-filter:
+    enabled: true
+    exclusions:
+      url-pattern: /druid/*
+  filter:
+    stat:
+      enabled: true
+    wall:
+      enabled: true

@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>
+        人元添加
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/css/main.css}" media="all">
+    <style>
+        .imgs{display: none;}
+        input[type="file"]{
+            width: 50px;
+            height:50px;
+            border-radius: 100%;
+            opacity:0;
+            cursor:pointer;
+            border: 1px solid red;
+            position: absolute;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="x-body">
+    <form class="layui-form layui-form-pane" action="" id="add">
+        <blockquote class="layui-elem-quote">
+            <input type="hidden" name="id" value="8">
+            <div >
+                <input class="layui-upload " type="file" accept="undefined" id="previewImg" name="images"  onchange="upload(this,8)">
+                <img th:src="@{(${user.image})}" class="layui-circle" style="width:50px;height:50px;float:left" id="pimages" name="pimages"   alt="个人头像" >
+                <input id="avatar"   name="image" required="" type="hidden" value="./images/tx.jpg" >
+                <dl style="margin-left:80px; color:#019688">
+                    <dt><span >ADMIN</span> <span ></span></dt>
+                    <dd style="margin-left:0">这家伙很懒，什么也没有留下</dd>
+                </dl>
+            </div>
+        </blockquote>
+
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <div class="layui-tab-content" >
+                <div class="layui-tab-item layui-show">
+                    <input type="text" name="uid" th:value="${user.uid}" hidden>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>用户名
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" autocomplete="off" th:placeholder="${user.uname}"
+                                   th:value="${user.uname}" class="layui-input" value="ADMIN" disabled>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>电话号码
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="phone"  autocomplete="off" th:placeholder="${user.phone}"
+                                   class="layui-input" th:value="${user.phone}">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>电子邮件
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="email" name="email"  autocomplete="off" th:placeholder="${user.email}"
+                                   class="layui-input" th:value="${user.email}">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <button class="layui-btn" type="button" lay-filter="add" lay-submit="">
+                            确认修改
+                        </button>
+                    </div>
+                    <!--</form>-->
+                    <div style="height:20px;"></div>
+                    <div class="layui-form-item">
+                        <button class="layui-btn" type="button" onclick="changepass()"  style="background-color: rgb(29,160,148)">
+                            修改密码按此处
+                        </button>
+                    </div>
+
+                    <div class="layui-form-item" id="odiv" hidden>
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>输入原密码
+                        </label>
+                        <div class="layui-input-block"  style="width: 500px">
+                            <input type="password" name="oldpass" autocomplete="off" class="layui-input" onkeyup="match()">
+                        </div>
+                        <label class="layui-form-item" style="position: absolute;top: 400px;right: 98px;height: 21px;
+                            width: 231px;text-align: left;line-height: 38px;">
+                            <span class='x-red' id="note" name="note"></span>
+                        </label>
+                    </div>
+
+                    <div class="layui-form-item" id="ndiv" hidden>
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>输入新密码
+                        </label>
+                        <div class="layui-input-block" style="width: 500px">
+                            <input type="password" name="newpass"  autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" id="confirm" hidden>
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>确认新密码
+                        </label>
+                        <div class="layui-input-block" style="width: 500px">
+                            <input type="password" name="confirm"  autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" id="onset" hidden>
+                        <button class="layui-btn" type="button" onclick="passset()">
+                            确认修改密码
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/js/x-layui.js}" charset="utf-8"></script>
+
+<script>
+    layui.use(['element','layer','form'], function(){
+        $ = layui.jquery;//jquery
+        lement = layui.element();//面包导航
+        layer = layui.layer;//弹出层
+        form = layui.form()
+
+        //监听提交
+        form.on('submit(add)', function(data){
+            var phone=$("input[name='phone']").val();
+            var email=$("input[name='email']").val();
+            if(phone==""){
+                layer.msg('手机不能为空',{icon:5,time:2000});return false;
+            }
+            if(email==""){
+                layer.msg('电子邮件不能为空',{icon:5,time:2000});return false;
+            }
+            var data=data.field;
+            $.ajax({
+                type:"post",
+                url:"http://localhost:8080/changeinfo",
+                data:data,
+                dataType:"json",
+                success:function(data)
+                {
+                    //alert(1);
+                    if(data==1) {
+                        layer.msg('修改成功！', {icon: 6,time:2000},function () {
+                            window.parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        });
+                        return false;
+
+                    } else{
+                        layer.msg('修改失败！',{icon:5,time:2000});return false;
+                    }
+                }
+            });
+
+        });
+
+    })
+</script>
+<!--栏目缩略图上传-->
+<script>
+
+    function changepass(){
+        let opass = document.getElementById("odiv");
+        let npass = document.getElementById("ndiv");
+        let confirm = document.getElementById("confirm");
+        let onset = document.getElementById("onset");
+        opass.removeAttribute('hidden');
+        npass.removeAttribute('hidden');
+        confirm.removeAttribute('hidden');
+        onset.removeAttribute('hidden');
+    }
+
+    function match(){
+        let opass = $('input[name="oldpass"]').val();
+        let uid = $('input[name="uid"]').val();
+        $.ajax({
+            url: "http://localhost:8080/passmatch",
+            type: "post",
+            data:{uid:uid,opass:opass,
+                  name:'n',phone:1,email:'e'},
+            dataType:"json",
+            success:function(data)
+            {
+                let t_name = document.getElementById("note");
+                if(data == 0){
+                    t_name.style.color = "red";
+                    t_name.textContent = "* 原密码错误！";
+                }else {
+                    t_name.style.color = "green";
+                    t_name.textContent = "* 验证成功！";
+                }
+            }
+        });
+    }
+
+    function passset(){
+        let uid = $('input[name="uid"]').val();
+        let npass = $('input[name="newpass"]').val();
+        let confirm = $('input[name="confirm"]').val();
+        let opass = $('input[name="oldpass"]').val();
+        let t_name = document.getElementById("note").textContent
+        //密码强度正则，最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符
+        var reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[`~!@#$%^&*()_+<>?:"{},.\/\\;'[\]])[A-Za-z\d`~!@#$%^&*()_+<>?:"{},.\/\\;'[\]]{6,}$/;
+        if(opass == null || opass ==''){
+            layer.msg('请输入旧密码！', {icon: 5,time:2000});return false;
+        }
+        if(t_name == "* 原密码错误！"){
+            layer.msg('请输入正确的旧密码！', {icon: 5,time:2000});return false;
+        }
+        if(npass == null || npass ==''){
+            layer.msg('请输入新密码！', {icon: 5,time:2000});return false;
+        }
+        if(! reg.test(npass)){
+            console.log(reg.test(npass))
+            layer.msg('新密码最少6位且包括至少1个大写字母和特殊字符！', {icon: 5,time:2000});return false;
+        }
+        if(confirm == null || confirm ==''){
+            layer.msg('请确认新密码！', {icon: 5,time:2000});return false;
+        }
+        if(confirm == opass){
+            layer.msg('新密码不能与原密码一致！', {icon: 5,time:2000});return false;
+        }
+        if(npass !== confirm){
+            layer.msg('两次密码不一致，请重新输入！', {icon: 5,time:2000});return false;
+        }else {
+            $.ajax({
+                url: "http://localhost:8080/changepass",
+                type: "post",
+                data:{uid:uid,confirm:confirm,
+                    name:'n',phone:1,email:'e'},
+                dataType:"json",
+                success:function(data)
+                {
+                    if(data==1) {
+                        layer.msg('修改成功，请重新登录！', {icon: 6,time:2000},function () {
+                            /*window.parent.location.reload();*/
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                            setTimeout("window.location.href='http://localhost:8080/logout'",2000);
+                            window.parent.location.href="http://localhost:8080/loginpage";return false;
+                        });
+                        return false;
+                    } else{
+                        layer.msg('修改失败！',{icon:5,time:2000});return false;
+                    }
+                }
+            });
+        }
+    }
+</script>
+
+</body>
+</html>

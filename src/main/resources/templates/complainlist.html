@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>
+        报修管理
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/css/main.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <script type="text/javascript" th:src="@{/lib/loading/okLoading.js}"></script>
+</head>
+<body>
+<div class="x-nav">
+            <span class="layui-breadcrumb">
+              <a><cite>首页</cite></a>
+              <a><cite>服务管理</cite></a>
+              <a><cite>报修列表</cite></a>
+            </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="x-body">
+    <form class="layui-form x-center" action="" style="width:800px">
+        <div class="layui-form-pane" style="margin-top: 15px;">
+            <div class="layui-form-item">
+                <label style="width: 140px;height: 38px" class="layui-form-label">根据负责人查找</label>
+                <div class="layui-input-inline">
+                    <select  class="layui-input-block" style="display: inline-block;width: 160px;height: 38px;margin-left: -10px;border: 1px solid #e6e6e6"
+                             name="admin_id" th:filed="*{list}">
+                        <option value=0>全部数据</option>
+                        <option th:each="list:${admin_list}"
+                                th:value="${list.uid}"
+                                th:text="${list.uname}">
+                        </option>
+                    </select>
+                </div>
+                <input name="page" type="text" value=1 hidden>
+                <div class="layui-input-inline" style="width:80px">
+                    <input type="submit" class="layui-btn" lay-filter="sreach" value="搜索">
+                </div>
+            </div>
+        </div>
+    </form>
+    <xblock>
+        <button class="layui-btn" onclick="complain_add('添加','http://localhost:8080/complainadd','600','400')">
+            <i class="layui-icon">&#xe608;</i>添加
+        </button>
+        <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge" th:text="${total}"></span> 条</span>
+    </xblock>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>
+                登记人
+            </th>
+            <th>
+                所属小区
+            </th>
+            <th>
+                投诉人员
+            </th>
+            <th>
+                投诉事由
+            </th>
+            <th>
+                创建时间
+            </th>
+            <th>
+                状态
+            </th>
+            <th>
+                操作
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="list:${complaint_list}">
+            <td th:text="${list.aname}"></td>
+            <td th:text="${list.cname}"></td>
+            <td th:text="${list.pname}"></td>
+            <td th:text="${list.descr}"></td>
+            <td th:text="${list.createtime}"></td>
+            <td class="td-status">
+                <span th:if="${list.status eq 0}" class="layui-btn layui-btn-normal" th:onclick="start(this,[[${list.cpid}]],[[${list.status}]])"> 未受理 </span>
+                <span th:if="${list.status eq 1}" class="layui-btn layui-btn-danger" th:onclick="start(this,[[${list.cpid}]],[[${list.status}]])"> 处理中 </span>
+                <span th:if="${list.status eq 2}" class="layui-btn layui-btn-warm"> 已完成 </span>
+            </td>
+            <td class="td-manage">
+                <a title="编辑" href="javascript:;" th:onclick="complain_edit('编辑','http://localhost:8080/complainupdate',[[${list.cpid}]],[[${list.status}]],'600','400')"
+                   class="ml-5" style="text-decoration:none">
+                    <i class="layui-icon">&#xe642;</i>
+                </a>
+                <a title="删除" href="javascript:;" th:onclick="complain_del(this,[[${list.cpid}]])"
+                   style="text-decoration:none">
+                    <i class="layui-icon">&#xe640;</i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div id="page">
+        <ul class="pagination">
+            <li th:class="${current eq 1} ? 'disabled' : ''">
+                <a th:if="${not(current eq 1)}" th:href="@{/complainlist(page=${current-1},admin_id=${admin_id})}">&laquo;</a>
+                <a th:if="${current eq 1}">&laquo;</a>
+            </li>
+            <li th:each="list:${total_count}" th:class="${list eq current} ? 'active' : ''">
+                <a th:if="${current eq list}" th:href="@{/complainlist(page=${current},admin_id=${admin_id})}">
+                    <span th:text="${current}"></span>
+                </a>
+                <a th:if="${not(current eq list)}" th:href="@{/complainlist(page=${list},admin_id=${admin_id})}">
+                    <span th:text="${list}"></span>
+                </a>
+            </li>
+            <li th:class="${current ge total_page} ? 'disabled' : ''">
+                <a th:if="${current lt total_page}" th:href="@{/complainlist(page=${current+1},admin_id=${admin_id})}">&raquo;</a>
+                <a th:if="${current ge total_page}">&raquo;</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/js/x-layui.js}" charset="utf-8"></script>
+<script>
+    layui.use(['laydate','element','laypage','layer'], function(){
+        $ = layui.jquery;//jquery
+        laydate = layui.laydate;//日期插件
+        lement = layui.element();//面包导航
+        laypage = layui.laypage;//分页
+        layer = layui.layer;//弹出层
+        okLoading.close($);
+        //以上模块根据需要引入
+
+    });
+
+
+    function question_show (argument) {
+        layer.msg('可以跳到前台具体问题页面',{icon:1,time:1000});
+    }
+    /*添加*/
+    function complain_add(title,url,w,h){
+        x_admin_show(title,url,w,h);
+    }
+    //编辑
+    function complain_edit (title,url,id,status,w,h) {
+        if(status == 2) {
+            layer.msg('该投诉单已完结，不能再修改！',{icon:5,time:1000});return false;
+        }
+        url =url+"?id="+id;
+        x_admin_show(title,url,w,h);
+    }
+
+    /*删除*/
+    function complain_del(obj,id){
+        layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
+            $.ajax({
+                type:"post",
+                url:"http://localhost:8080/complaindel",
+                data:{id:id},
+                dataType:"json",
+                success:function(data){
+                    //console.log(data);
+                    if(data==1){
+                        //发异步删除数据
+                        $(obj).parents("tr").remove();
+                        layer.msg('删除成功！',{icon:6,time:1000});
+                        setTimeout(function(){
+                            window.location.href = "http://localhost:8080/complainlist?page=1&admin_id=0";
+                        },1000);return false;
+                    } else{
+                        layer.msg('删除失败！',{icon:5,time:1000});return false;
+                    }
+                }
+            });
+            //发异步删除数据
+            $(obj).parents("tr").remove();
+            layer.msg('已删除!',{icon:1,time:1000});
+        });
+    }
+
+    function start(obj,id,e){
+        layer.confirm(e==1?'确定要完成处理吗？':'确定处理中？',{icon: 3, title:'提示'},function(index){
+            $.ajax({
+                type:"post",
+                url:"http://localhost:8080/complainstatus",
+                data:{id:id,status:e},
+                dataType:"json",
+                success:function(data)
+                {
+                    if(data==1){
+                        //发异步把用户状态进行更改
+                        $(obj).attr("class","layui-btn layui-btn-danger ");
+                        $(obj).text("隐藏");
+                        $(obj).remove();
+                        layer.msg("已登记完成处理！",{icon: 6,time:1000});
+                        setTimeout(function(){
+                            window.location.reload();
+                        },1000);return false;
+                    }else{
+                        //发异步把用户状态进行更改
+                        $(obj).attr("class","layui-btn layui-btn-normal ");
+                        $(obj).text("显示");
+                        $(obj).remove();
+                        layer.msg("登记失败！",{icon: 5,time:1000});return false;
+                    }
+                }
+            });
+        });
+    }
+</script>
+
+</body>
+</html>

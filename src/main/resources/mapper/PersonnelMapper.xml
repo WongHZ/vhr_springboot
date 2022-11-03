@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huan.vhr_springboot.mapper.PersonnelMapper">
+    <select id="selectPage" resultType="com.huan.vhr_springboot.entity.Personnel">
+        select p.p_id as pid,h.community_id as cid,h.community_name as cname,h.h_name as hname,p.name as pname,p.picture as image,
+               p.idcard,p.birthday,p.telephone as phone,p.sex,p.type,p.create_time as createtime
+        from vhr_personnel p left join vhr_house h on p.community_id = h.community_id and p.house_id = h.h_id where p.is_deleted=0
+              <choose>
+                  <when test="hid neq null and hid neq 0">
+                      and p.house_id = #{hid} limit #{pageNo},#{pageSize}
+                  </when>
+                  <otherwise>
+                      limit #{pageNo},#{pageSize}
+                  </otherwise>
+              </choose>
+    </select>
+
+    <select id="selectBypId" resultType="com.huan.vhr_springboot.entity.Personnel">
+        select p.p_id as pid,h.community_id as cid,h.community_name as cname,h.h_name as hname,p.name as pname,p.picture as image,
+        p.idcard,p.birthday,p.telephone as phone,p.sex,p.type,p.create_time as createtime
+        from vhr_personnel p left join vhr_house h on p.community_id = h.community_id and p.house_id = h.h_id
+        where p.is_deleted=0 and p.p_id = #{pid}
+
+    </select>
+</mapper>

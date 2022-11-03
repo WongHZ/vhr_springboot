@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huan.vhr_springboot.mapper.ComplaintMapper">
+    <select id="selectPage" resultType="com.huan.vhr_springboot.entity.Complaint">
+        select com.complaint_id as cpid,com.community_id as cid,c.community_name as cname,com.person_id as pid,
+        p.name as pname,com.admin_name as aname, com.description as descr,com.status as status,
+        com.create_time as createtime,com.update_time as updatetime
+        from vhr_complaint com
+        left join vhr_community c on com.community_id = c.community_id
+        left join vhr_personnel p on com.person_id = p.p_id
+        where com.is_deleted=0
+        <choose>
+            <when test="aname neq null and aname neq ''">
+                and com.admin_name = #{aname} limit #{pageNo},#{pageSize}
+            </when>
+            <otherwise>
+                limit #{pageNo},#{pageSize}
+            </otherwise>
+        </choose>
+    </select>
+
+</mapper>

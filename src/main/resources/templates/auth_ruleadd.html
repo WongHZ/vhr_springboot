@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        添加权限
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/css/main.css}" media="all">
+</head>
+
+<body>
+<div class="x-body">
+    <form action="" method="post" class="layui-form layui-form-pane">
+        <input type="hidden" name="id" value=""/>
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label">
+                <span class="x-red">*</span>角色类型选择
+            </label>
+            <div class="layui-input-inline">
+                <select name="aname">
+                    <option value="admin">普通管理员</option>
+                </select>
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                <span class="x-red">*</span>超级管理员已赋予最高权限规则，无需增加
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label">
+                <span class="x-red">*</span>权限规则
+            </label>
+            <div class="layui-input-inline" >
+                <select name="url">
+                    <option value="communityadd">小区列表的新增功能</option>
+                    <option value="communityupdate">小区列表的修改功能</option>
+                    <option value="communitydel">小区列表的删除功能</option>
+                    <option value="houseadd">个人房产的新增功能</option>
+                    <option value="houseupdate">个人房产的修改功能</option>
+                    <option value="housedel">个人房产的删除功能</option>
+                    <option value="buildingadd">栋数管理的新增功能</option>
+                    <option value="buildingdel">栋数管理的删除功能</option>
+                    <option value="personnel_add">人员的新增功能</option>
+                    <option value="personnel_update">人员的修改功能</option>
+                    <option value="personneldel">人员的删除功能</option>
+                    <option value="vehicle_add">车辆的新增功能</option>
+                    <option value="vehicle_update">车辆的修改功能</option>
+                    <option value="cardel">车辆的删除功能</option>
+                    <option value="park_add">车位的新增功能</option>
+                    <option value="parkingstatus">车位的状态修改功能</option>
+                    <option value="parkingdel">车位的删除功能</option>
+                    <option value="parkinguseadd">车位使用的新增功能</option>
+                    <option value="parkinguseupdate">车位使用的修改功能</option>
+                    <option value="parkingusedel">车位使用的删除功能</option>
+                </select>
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                <span class="x-red">*</span>新增规则列表主要为子模块的新删改功能
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label for="desc" class="layui-form-label">
+                描述
+            </label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容，规则描述请参照此规则：子模块名称的“新增/修改/修改状态/删除”功能" id="condition" name="condition" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn" lay-submit="" lay-filter="add">保存</button>
+        </div>
+    </form>
+</div>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/js/x-layui.js}" charset="utf-8">
+</script><script>
+    layui.use(['form','layer'], function(){
+        $ = layui.jquery;
+        var form = layui.form()
+            ,layer = layui.layer;
+
+        //监听提交
+        form.on('submit(add)', function(data){
+            var condition=$("input[name='condition']").val();
+            if(condition==""){
+                layer.msg('规则描述不能为空！',{icon:5,time:2000});return false;
+            }
+            var data = data.field;
+            $.ajax({
+                type:"post",
+                url:"http://localhost:8080/auth_ruleaddData",
+                data:data,
+                dataType:"json",
+                success:function (data) {
+                    if(data==1){
+                        layer.msg("添加成功！请普通管理员账号刷新页面。",{icon:1,time:1000});
+                        setTimeout(function(){
+                            window.parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        },1000);
+                        return false;
+                    }else if(data==2){
+                        layer.msg("已有该权限规则，请勿重复添加！",{icon:5,time:1000});return false;
+                    }else {
+                        layer.msg("添加失败，请联系技术人员处理！",{icon:5,time:1000});return false;
+                    }
+                }
+            });
+            return false;
+        });
+
+
+    });
+</script>
+
+</body>
+
+</html>

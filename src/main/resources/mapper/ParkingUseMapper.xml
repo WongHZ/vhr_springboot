@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huan.vhr_springboot.mapper.ParkingUseMapper">
+    <select id="selectPage" resultType="com.huan.vhr_springboot.entity.ParkingUse">
+        select pu.id as id,pu.community_id as cid,c.community_name as cname,pu.parking_id as parkingid,
+        pa.code as parkcode,pu.car_id as carid,ca.car_number as carcode,ca.picture as carimage,
+        pu.personnel_id as personnelid,pe.name as personnelname,pe.telephone as phone,
+        pu.use_type as usetype,pu.total_fee as totalfee,pu.start_time as starttime,
+        pu.end_time as endtime,pu.create_time as createtime,pu.update_time as updatetime
+        from vhr_parking_use pu
+        left join vhr_community c on pu.community_id = c.community_id
+        left join vhr_parking pa on pu.parking_id = pa.id
+        left join vhr_car ca on pu.car_id = ca.id
+        left join vhr_personnel pe on pu.personnel_id = pe.p_id
+        where pu.is_deleted=0
+        <choose>
+            <when test="pid neq null and pid neq 0L">
+                and pu.parking_id = #{pid} limit #{pageNo},#{pageSize}
+            </when>
+            <otherwise>
+                limit #{pageNo},#{pageSize}
+            </otherwise>
+        </choose>
+    </select>
+    <select id="selectDataById" resultType="com.huan.vhr_springboot.entity.ParkingUse">
+        select pu.id as id,pu.community_id as cid,c.community_name as cname,pu.parking_id as parkingid,
+        pa.code as parkcode,pu.car_id as carid,ca.car_number as carcode,ca.picture as carimage,
+        pu.personnel_id as personnelid,pe.name as personnelname,pe.telephone as phone,
+        pu.use_type as usetype,pu.total_fee as totalfee,pu.start_time as starttime,
+        pu.end_time as endtime,pu.create_time as createtime,pu.update_time as updatetime
+        from vhr_parking_use pu
+        left join vhr_community c on pu.community_id = c.community_id
+        left join vhr_parking pa on pu.parking_id = pa.id
+        left join vhr_car ca on pu.car_id = ca.id
+        left join vhr_personnel pe on pu.personnel_id = pe.p_id
+        where pu.is_deleted=0 and pu.id = #{id}
+    </select>
+</mapper>

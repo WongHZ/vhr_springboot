@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>
+        小区管理
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/css/main.css}" media="all">
+    <script type="text/javascript" th:src="@{/lib/loading/okLoading.js}"></script>
+    <!--百度编辑器-->
+    <script th:src="@{/ueditor/ueditor.config.js}"></script>
+    <script th:src="@{/ueditor/ueditor.all.min.js}"></script>
+    <script th:src="@{/ueditor/lang/zh-cn/zh-cn.js}"></script>
+
+</head>
+<style>
+    .imgs{display: none;}
+    .picture{display: none;}
+</style>
+<body>
+<div class="x-nav">
+            <span class="layui-breadcrumb">
+              <a><cite>首页</cite></a>
+              <a><cite>小区管理</cite></a>
+              <a><cite>添加小区</cite></a>
+            </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="x-body">
+    <form class="layui-form layui-form-pane" id="add"  th:action="@{/communityaddData}" method="post" enctype="multipart/form-data">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <div class="layui-tab-content" >
+                <div class="layui-tab-item layui-show">
+                    <!--<form class="layui-form layui-form-pane" action="" id="add">-->
+                    <input type="hidden" name="id" value="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>小区管理员
+                        </label>
+                        <div class="layui-input-block">
+                            <select name="user_id" id="user_id" th:filed="*{list}">
+                                <option th:each="list:${adminlist}"
+                                        th:value="${list.uname}"
+                                        th:text="${list.uname}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>小区名称
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="community_name" autocomplete="off" placeholder="小区名称"
+                                   class="layui-input" required="" lay-verify="required" value="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>小区编号
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="community_code" autocomplete="off" placeholder="小区编号"
+                                   class="layui-input" required="" lay-verify="required" value="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>坐落地址
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="cell_address" autocomplete="off" placeholder="坐落地址"
+                                   class="layui-input" lay-verify="required" value="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>占地面积
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="area_covered" autocomplete="off" placeholder="占地面积"
+                                   class="layui-input" lay-verify="required" value="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>开发商名称
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="developers" autocomplete="off" placeholder="开发商名称"
+                                   class="layui-input" lay-verify="required" value="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>物业公司名称
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="property" autocomplete="off" placeholder="物业公司名称"
+                                   class="layui-input" lay-verify="required" value="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>绿化率
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="afforestation_rate" autocomplete="off" placeholder="绿化率"
+                                   class="layui-input" lay-verify="required" value="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>总栋数
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="tung" autocomplete="off" placeholder="总栋数"
+                                   class="layui-input" lay-verify="required" value="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>总户数
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="household" autocomplete="off" placeholder="总户数"
+                                   class="layui-input" lay-verify="required" value="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>状态
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="status" value="1" title="显示" >
+                            <div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon layui-anim-scaleSpring"></i>
+                                <div>显示</div>
+                            </div>
+                            <input type="radio" name="status" value="0" title="隐藏" checked="checked">
+                            <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i>
+                                <div>隐藏</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="link" class="layui-form-label">
+                            <span class="x-red">*</span>小区缩略图
+                        </label>
+                        <div class="layui-input-inline">
+                            <div class="site-demo-upbar">
+                                <div class=" layui-upload-button" style="border:#FFFFFF ;">
+                                    <button type="button" class="layui-btn" id="test1">
+                                        <i class="layui-icon">&#xe67c;</i>上传图片
+                                    </button>
+                                    <!--onchange="upload(this,)"-->
+                                    <input class="layui-upload" type="file" accept="undefined" id="previewImg" name="images">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <input class="layui-btn" type="submit" lay-filter="add" lay-submit="" value="保存">
+                    </div>
+                    <!--</form>-->
+                    <div style="height:100px;"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/js/x-layui.js}" charset="utf-8"></script>
+<!--<script type="text/javascript">
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    UE.getEditor('content',{initialFrameWidth:700,initialFrameHeight:200,});
+</script>-->
+<script>
+    layui.use(['element','layer','form'], function(){
+        $ = layui.jquery;//jquery
+        lement = layui.element();//面包导航
+        layer = layui.layer;//弹出层
+        form = layui.form();
+        okLoading.close($);
+
+        //监听提交
+        form.on('submit(add)', function(data){
+            var community_name=$("input[name='community_name']").val();
+            var community_code=$("input[name='community_code']").val();
+            var developers=$("input[name='developers']").val();
+            var property=$("input[name='property']").val();
+            if(community_name==""){
+                layer.msg('小区名称不能为空',{icon:5,time:2000});return false;
+            }
+            if(community_code==""){
+                layer.msg('小区编号不能为空',{icon:5,time:2000});return false;
+            }
+            if(developers==""){
+                layer.msg('小区开发商不能为空',{icon:5,time:2000});return false;
+            }
+            if(property==""){
+                layer.msg('物业公司不能为空',{icon:5,time:2000});return false;
+            }
+            var data=data.field;
+
+        });
+
+    })
+</script>
+</body>
+</html>

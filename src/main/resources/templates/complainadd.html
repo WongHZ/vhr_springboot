@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>
+        投诉添加
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/css/main.css}" media="all">
+    <script type="text/javascript" th:src="@{/lib/loading/okLoading.js}"></script>
+    <style>
+        .imgs{display: none;}
+    </style>
+
+</head>
+<body>
+
+<div class="x-body">
+    <form class="layui-form layui-form-pane" action="" id="add">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+
+
+            <div class="layui-tab-content" >
+                <div class="layui-tab-item layui-show">
+                    <input type="text" name="admin_name" th:value="${admin_name}" hidden>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>所属小区
+                        </label>
+                        <div class="layui-input-block" style="width: 200px">
+                            <select id="com_id" name="community_id" th:filed="*{list}" >
+                                <option value=""></option>
+                                <option th:each="list:${communities}"
+                                        th:value="${list.cid}"
+                                        th:text="${list.cname}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>投诉人员
+                        </label>
+                        <div class="layui-input-block" style="width: 200px">
+                            <input type="text" name="username" placeholder="请输入已登记的业主姓名" onkeyup="find_name()"
+                                   class="layui-input" value="">
+                        </div>
+                        <label class="layui-form-item" style="position: absolute;top: 93px;right: 12px;height: 21px;
+                            width: 231px;text-align: left;line-height: 38px;">
+                            <span class='x-red' id="uname"></span>
+                        </label>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>投诉事由
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="descr" autocomplete="off" placeholder="请输入内容"
+                                   class="layui-input" value="">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <button class="layui-btn" type="button" lay-filter="add" lay-submit="">
+                            保存
+                        </button>
+                    </div>
+                    <!--</form>-->
+                    <div style="height:100px;"></div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/js/x-layui.js}" charset="utf-8"></script>
+<script th:src="@{/js/jquery.min.js}" charset="utf-8"></script>
+
+<script>
+    layui.use(['laydate','element','layer','form'], function(){
+        $ = layui.jquery;//jquery
+        lement = layui.element();//面包导航
+        layer = layui.layer;//弹出层
+        form = layui.form();
+        laydate = layui.laydate;//日期插件
+        okLoading.close($);
+        form.render();
+
+
+
+        //监听提交
+        form.on('submit(add)', function(data){
+            var uasername=$("input[name='uasername']").val();
+            var descr=$("input[name='descr']").val();
+            let t_name = document.getElementById("uname").textContent
+            var community_id=$('#community_id option:selected') .val();//所属栏目ID
+            if(community_id==""){
+                layer.msg('所属小区不能为空',{icon:5,time:2000});return false;
+            }
+            if(uasername==""){
+                layer.msg('投诉人员不能为空',{icon:5,time:2000});return false;
+            }
+            if(t_name=="* 登记表暂无该业主，请重新输入！"){
+                layer.msg('投诉人员必须是为已登记的人员！',{icon:5,time:2000});return false;
+            }
+            if(descr==""){
+                layer.msg('投诉事由不能为空',{icon:5,time:2000});return false;
+            }
+
+            var data=data.field;
+            $.ajax({
+                type:"post",
+                url:"http://localhost:8080/complainaddData",
+                data:data,
+                dataType:"json",
+                success:function(data){
+                    if(data==1){
+                        layer.msg('新增成功！', {icon: 6,time:2000},function () {
+                            window.parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        });
+                        return false;
+
+                    } else{
+                        layer.msg('新增失败！',{icon:5,time:2000});return false;
+                    }
+                }
+            });
+        });
+    })
+</script>
+
+<script>
+    function find_name(){
+        let pname = $('input[name="username"]').val();
+        $.ajax({
+            url: "http://localhost:8080/complainget_person",
+            type: "post",
+            data:{pname:pname},
+            dataType:"json",
+            success:function(data)
+            {
+                let t_name = document.getElementById("uname");
+                if(data == 0){
+                    t_name.style.color = "red";
+                    t_name.textContent = "* 登记表暂无该业主，请重新输入！";
+                }else {
+                    t_name.style.color = "green";
+                    t_name.textContent = "* 已找到改名业主，可继续录入！";
+                }
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

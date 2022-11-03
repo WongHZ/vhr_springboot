@@ -1,0 +1,36 @@
+a{
+    color: #3C8A58;
+    text-decoration: none;
+}
+a:hover{
+    color: #285133;
+    text-decoration:underline;
+}
+table a{
+    padding-left: 1em;
+}
+/*顶部添加批量删除导出样式*/
+.btn {
+    display: inline-block;
+    padding: 0.5em 1.5em;
+    border-radius: 3px;
+    border:1px solid #285133;
+    color:#3C8A58;
+    cursor :pointer;
+    font-weight: bold;
+}
+table.table {
+    box-sizing: border-box;
+    width: 100%;
+    border-collapse: collapse;
+}
+table>thead{
+    background-color: #A0C1AE;
+    /*z-index: -1;*/
+}
+table.table td{
+    border: 1px solid #3C8A58;
+    line-height: 2em;
+    text-align: center;
+    color: #3C8A58;
+}

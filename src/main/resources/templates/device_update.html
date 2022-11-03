@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>
+        车位使用添加
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/css/main.css}" media="all">
+    <script type="text/javascript" th:src="@{/lib/loading/okLoading.js}"></script>
+    <style>
+        .imgs{display: none;}
+    </style>
+
+</head>
+<body>
+
+<div class="x-body">
+    <form class="layui-form layui-form-pane" action="" id="add">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <div class="layui-tab-content" >
+                <div class="layui-tab-item layui-show">
+                    <input type="text" name="did" th:value="${device.getDid()}" hidden>
+                    <input type="text" name="page" th:value="${current}" hidden>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>所属小区
+                        </label>
+                        <div class="layui-input-block">
+                            <select name="community_id" th:filed="${device.getCid()}" disabled>
+                                <option th:value="${device.getCid()}" th:text="${com.getCname()}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>栋数名称
+                        </label>
+                        <div class="layui-input-block">
+                            <select name="building_id" id="buildings_id">
+                                <option th:value="${build}" th:text="${build} + '栋'"></option>
+                                <option th:if="not(${build eq 'A'})" value="A栋" th:hidden>A栋</option>
+                                <option th:if="not(${build eq 'B'})" value="B栋" th:hidden>B栋</option>
+                                <option th:if="not(${build eq 'C'})" value="C栋" th:hidden>C栋</option>
+                                <option th:if="not(${build eq 'D'})" value="D栋" th:hidden>D栋</option>
+                                <option th:if="not(${build eq 'E'})" value="E栋" th:hidden>E栋</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>设备名称
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="device_name" autocomplete="off" th:placeholder="${device.getName()}"
+                                   class="layui-input" th:value="${device.getName()}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>设备种类
+                        </label>
+                        <div class="layui-input-block">
+                            <input th:if="${device.getType() eq 'ELE'}" type="radio" name="type" value="ELE" title="电子设备" checked>
+                            <input th:if="not(${device.getType() eq 'ELE'})" type="radio" name="type" value="ELE" title="电子设备" >
+                            <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i>
+                                <div>电子设备</div>
+                            </div>
+                            <input th:if="${device.getType() eq 'CLE'}" type="radio" name="type" value="CLE" title="日用设备" checked>
+                            <input th:if="not(${device.getType() eq 'CLE'})" type="radio" name="type" value="CLE" title="日用设备">
+                            <div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon layui-anim-scaleSpring"></i>
+                                <div>清洁设备</div>
+                            </div>
+                            <input th:if="${device.getType() eq 'PUB'}" type="radio" name="type" value="PUB" title="公共设施" checked>
+                            <input th:if="not(${device.getType() eq 'PUB'})" type="radio" name="type" value="PUB" title="公共设施" >
+                            <div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon layui-anim-scaleSpring"></i>
+                                <div>公共设施</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>设备品牌
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="brand" autocomplete="off" th:placeholder="${device.getBrand()}"
+                                   class="layui-input" th:value="${device.getBrand()}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>购买单价
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="money" autocomplete="off" th:placeholder="${device.getPrice()}"
+                                   class="layui-input" th:value="${device.getPrice()}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>购买数量
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="number" name="number" autocomplete="off" th:placeholder="${device.getBuynum()}" min="1"
+                                   class="layui-input" th:value="${device.getBuynum()}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>预计使用
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="number" name="eu_life" autocomplete="off" th:placeholder="${device.getEulife()}" min="1"
+                                   class="layui-input" th:value="${device.getEulife()}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="layui-btn" type="button" lay-filter="add" lay-submit="">
+                            保存
+                        </button>
+                    </div>
+
+                    <div style="height:100px;"></div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/js/x-layui.js}" charset="utf-8"></script>
+
+<script>
+    layui.use(['laydate','element','layer','form'], function(){
+        $ = layui.jquery;//jquery
+        lement = layui.element();//面包导航
+        layer = layui.layer;//弹出层
+        form = layui.form();
+        laydate = layui.laydate;//日期插件
+        okLoading.close($);
+        form.render();
+
+        //监听提交
+        form.on('submit(add)', function(data){
+            var device_name=$("input[name='device_name']").val();
+            var brand=$("input[name='brand']").val();
+            var money=$("input[name='money']").val();
+            var number=$("input[name='number']").val();
+            var eu_life=$("input[name='eu_life']").val();
+            var building_id=$("input[name='building_id']").val();
+            var community_id=$('#community_id option:selected') .val();//所属栏目ID
+            if(device_name==""){
+                layer.msg('设备名称不能为空',{icon:5,time:1000});return false;
+            }
+            if(brand==""){
+                layer.msg('品牌名称不能为空',{icon:5,time:1000});return false;
+            }
+            if(money==""){
+                layer.msg('购买单价不能为空',{icon:5,time:1000});return false;
+            }
+            if(community_id==""){
+                layer.msg('所属小区不能为空',{icon:5,time:1000});return false;
+            }
+            if(building_id==""){
+                layer.msg('所属楼栋不能为空',{icon:5,time:1000});return false;
+            }
+            if(number==""){
+                layer.msg('购买数量不能为空',{icon:5,time:1000});return false;
+            }
+            if(eu_life==""){
+                layer.msg('预计使用年限不能为空',{icon:5,time:1000});return false;
+            }
+
+            var data=data.field;
+            $.ajax({
+                type:"post",
+                url:"http://localhost:8080/device_upData",
+                data:data,
+                dataType:"json",
+                success:function(data){
+                    if(data==1){
+                        layer.msg("修改成功！", {icon: 6,time:2000},function () {
+                            window.parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        });
+                        return false;
+
+                    }
+                    else{
+                        layer.msg("修改失败！",{icon:5,time:2000});return false;
+                    }
+                }
+            });
+        });
+    })
+</script>
+<!--栏目缩略图上传-->
+<!--<script>
+    function input_num() {
+        let sNum = money.value.toString(); //先转换成字符串类型
+        if (sNum.indexOf(".") == 0) {
+            //第一位就是 .
+            console.log("first str is .");
+            sNum = "0" + sNum;
+        }
+        sNum = sNum.replace(/[^\d.]/g, ""); //清除“数字”和“.”以外的字符
+        sNum = sNum.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        sNum = sNum
+            .replace(".", "$#$")
+            .replace(/\./g, "")
+            .replace("$#$", ".");
+        sNum = sNum.replace(/^(\-)*(\d+)\.(\d\d).*$/, "$1$2.$3"); //只能输入两个小数
+        //以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+        if (sNum.indexOf(".") < 0 && sNum != "") {
+            sNum = parseFloat(sNum);
+        }
+        state.value = sNum;
+    }
+</script>-->
+
+</body>
+</html>

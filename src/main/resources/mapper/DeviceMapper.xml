@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huan.vhr_springboot.mapper.DeviceMapper">
+    <resultMap id="devicePage" type="com.huan.vhr_springboot.entity.Device">
+        <id column="did" property="did"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="brand" property="brand"/>
+        <result column="price" property="price"/>
+        <result column="buynum" property="buynum"/>
+        <result column="eulife" property="eulife"/>
+        <result column="createtime" property="createtime"/>
+        <result column="updatetime" property="updatetime"/>
+        <collection property="community" ofType="com.huan.vhr_springboot.entity.Community">
+            <result column="cid" property="cid"/>
+            <result column="cname" property="cname"/>
+        </collection>
+    </resultMap>
+    <select id="selectPage" resultType="com.huan.vhr_springboot.entity.Device" resultMap="devicePage">
+        select d.id as did,d.community_id as cid,c.community_name as cname,d.code as code,d.name as name,
+        d.brand as brand,d.unit_price as price,d.num as buynum,d.expected_useful_life as eulife,d.create_time as createtime,d.update_time as updatetime
+        from vhr_device d
+        left join vhr_community c on d.community_id = c.community_id where d.is_deleted=0
+        <choose>
+            <when test="cid neq null and cid neq 0">
+                and d.community_id = #{cid} limit #{pageNo},#{pageSize}
+            </when>
+            <otherwise>
+                limit #{pageNo},#{pageSize}
+            </otherwise>
+        </choose>
+    </select>
+
+</mapper>

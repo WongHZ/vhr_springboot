@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>
+        收费项目添加
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/css/main.css}" media="all">
+    <script type="text/javascript" th:src="@{/lib/loading/okLoading.js}"></script>
+    <style>
+        .imgs{display: none;}
+    </style>
+
+</head>
+<body>
+
+<div class="x-body">
+    <form class="layui-form layui-form-pane" action="" id="add">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <div class="layui-tab-content" >
+                <div class="layui-tab-item layui-show">
+                    <input type="hidden" name="id" value="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>所属小区
+                        </label>
+                        <div class="layui-input-block">
+                            <select id="com_id" name="community_id" th:filed="*{list}" >
+                                <option th:value="${charges.cid}"
+                                        th:text="${charges.cname}">
+                                </option>
+                                <option th:each="list:${communities}"
+                                        th:value="${list.cid}"
+                                        th:text="${list.cname}"
+                                        th:if="${charges.cid} neq ${list.cid}" th:hidden>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>收费编号
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="chid" th:value="${charges.chid}" hidden>
+                            <input type="text" name="code" autocomplete="off" th:placeholder="${charges.code}"
+                                   class="layui-input" th:value="${charges.code}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>项目名称
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" autocomplete="off" th:placeholder="${charges.name}"
+                                   class="layui-input" th:value="${charges.name}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>收费标准
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="price" autocomplete="off" th:placeholder="${charges.price}"
+                                   class="layui-input" th:value="${charges.price}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="layui-btn" type="button" lay-filter="add" lay-submit="">
+                            保存
+                        </button>
+                    </div>
+
+                    <div style="height:100px;"></div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </form>
+</div>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/js/x-layui.js}" charset="utf-8"></script>
+
+<script>
+    layui.use(['laydate','element','layer','form'], function(){
+        $ = layui.jquery;//jquery
+        lement = layui.element();//面包导航
+        layer = layui.layer;//弹出层
+        form = layui.form();
+        laydate = layui.laydate;//日期插件
+        okLoading.close($);
+        form.render();
+
+
+
+
+        //监听提交
+        form.on('submit(add)', function(data){
+            var community_id=$('#community_id option:selected') .val();//所属栏目ID
+            var code=$("input[name='code']:checked").val();
+            var name=$("input[name='name']:checked").val();
+            var price=$("input[name='price']:checked").val();
+            var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+            if(code==""){
+                layer.msg('项目编号不能为空',{icon:5,time:2000});return false;
+            }
+            if(name==""){
+                layer.msg('项目名称不能为空',{icon:5,time:2000});return false;
+            }
+            if(community_id==""){
+                layer.msg('所属小区不能为空',{icon:5,time:2000});return false;
+            }
+            if(price==""){
+                layer.msg('收费标准不能为空',{icon:5,time:2000});return false;
+            }
+            /*if(! reg.test(price)){
+                layer.msg('收费标准必须为金额数！',{icon:5,time:2000});return false;
+            }*/
+            var data=data.field;
+            $.ajax({
+                type:"post",
+                url:"http://localhost:8080/pro_upData",
+                data:data,
+                dataType:"json",
+                success:function(data){
+                    if(data==1){
+                        layer.msg('修改成功！', {icon: 6,time:2000},function () {
+                            window.parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        });
+                        return false;
+
+                    }
+                    else{
+                        layer.msg('修改失败！',{icon:5,time:2000});return false;
+                    }
+                }
+
+            });
+
+        });
+
+    })
+</script>
+</body>
+</html>

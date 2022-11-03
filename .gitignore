@@ -1,0 +1,14 @@
+# Default ignored files
+/shelf/
+/.idea/workspace.xml
+# Datasource local storage ignored files
+/../../../../:\OneDrive\vhr_springboot\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+
+/../../../../:\OneDrive\vhr_springboot\.idea
+.idea
+target
+src/test/java/com/huan/vhr_springboot/appTest.java
+src/test/java/com/huan/vhr_springboot/interviewTest.java

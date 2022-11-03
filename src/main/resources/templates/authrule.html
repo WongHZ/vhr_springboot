@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>
+        权限规则
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/css/main.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+<div class="x-nav">
+            <span class="layui-breadcrumb">
+              <a><cite>首页</cite></a>
+              <a><cite>会员管理</cite></a>
+              <a><cite>权限规则</cite></a>
+            </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="x-body">
+    <xblock>
+        <button class="layui-btn" onclick="rule_add('添加权限','http://localhost:8080/auth_ruleadd','650','450')"><i class="layui-icon">&#xe608;</i>添加</button>
+        <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge" th:text="${total}"></span> 条</span>
+    </xblock>
+
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>
+                角色名称
+            </th>
+            <th>
+                权限规则
+            </th>
+            <th>
+                规则描述
+            </th>
+            <th>
+                获取方式
+            </th>
+            <th>
+                权限状态
+            </th>
+        </tr>
+        </thead>
+        <tbody id="x-link">
+        <tr th:each="list:${authority_list}">
+            <td th:if="${list.aname eq 'admin'}">普通管理员</td>
+            <td th:if="${list.aname eq 'superadmin'}">超级管理员</td>
+            <td th:text="${list.url}"></td>
+            <td th:text="${list.description}"></td>
+            <td th:text="${list.method}"></td>
+            <td class="td-status">
+                <span th:if="${list.status eq 1}" class="layui-btn layui-btn-normal " th:onclick="rule_status(this,[[${list.aid}]],[[${list.status}]],[[${current}]])"> 启用 </span>
+                <span th:if="${list.status eq 0}" class="layui-btn layui-btn-danger " th:onclick="rule_status(this,[[${list.aid}]],[[${list.status}]],[[${current}]])"> 停用 </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div id="page">
+        <ul class="pagination">
+            <li th:class="${current eq 1} ? 'disabled' : ''">
+                <a th:if="${not(current eq 1)}" th:href="@{/authrule(page=${current-1})}">&laquo;</a>
+                <a th:if="${current eq 1}">&laquo;</a>
+            </li>
+            <li th:each="list:${total_count}" th:class="${list eq current} ? 'active' : ''">
+                <a th:if="${current eq list}" th:href="@{/authrule(page=${current})}">
+                    <span th:text="${current}"></span>
+                </a>
+                <a th:if="${not(current eq list)}" th:href="@{/authrule(page=${list})}">
+                    <span th:text="${list}"></span>
+                </a>
+            </li>
+            <li th:class="${current ge total_page} ? 'disabled' : ''">
+                <a th:if="${current lt total_page}" th:href="@{/authrule(page=${current+1})}">&raquo;</a>
+                <a th:if="${current ge total_page}">&raquo;</a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/js/x-layui.js}" charset="utf-8"></script>
+<script>
+    layui.use(['element','laypage','layer','form'], function(){
+        $ = layui.jquery;//jquery
+        lement = layui.element();//面包导航
+        laypage = layui.laypage;//分页
+        layer = layui.layer;//弹出层
+        form = layui.form();//弹出层
+
+    })
+
+    //以上模块根据需要引入
+
+
+    /*添加*/
+    function rule_add(title,url,w,h){
+        x_admin_show(title,url,w,h);
+    }
+    /**
+     * 权限状态
+     **/
+    function rule_status(obj,id,e,page) {
+        layer.confirm(e==0?'你确定要启用该权限规则吗？':'你确定要停用该权限规则吗？',{icon: 3, title:'提示'},function(index){
+            $.ajax({
+                type:"post",
+                url:"http://localhost:8080/authrulestatus",
+                data:{id:id,status:e,page:page},
+                dataType:"json",
+                success:function(data)
+                {
+                    if(data==1){
+                        //发异步把用户状态进行更改
+                        $(obj).attr("class","layui-btn layui-btn-danger ");
+                        $(obj).text("隐藏");
+                        $(obj).remove();
+                        layer.msg("操作成功！",{icon: 6,time:1000});
+                        setTimeout(function(){
+                            window.location.reload();
+                        },1000);return success;
+                    }else if(data==2){
+                        //发异步把用户状态进行更改
+                        $(obj).attr("class","layui-btn layui-btn-normal ");
+                        $(obj).text("显示");
+                        $(obj).remove();
+                        layer.msg("操作失败，超级管理员不能停用！",{icon: 5,time:1000});
+                        setTimeout(function(){
+                            window.location.reload();
+                        },800);return false;
+                    }else {
+                        //发异步把用户状态进行更改
+                        $(obj).attr("class","layui-btn layui-btn-normal ");
+                        $(obj).text("显示");
+                        $(obj).remove();
+                        layer.msg("操作失败，请联系相关技术人员！",{icon: 5,time:1000});
+                        setTimeout(function(){
+                            window.location.reload();
+                        },800)
+                        return false;
+                    }
+                }
+            });
+        });
+    }
+
+    //-编辑
+    function rule_edit (title,url,id,w,h) {
+        url = url+"?id="+id;
+        x_admin_show(title,url,w,h);
+    }
+
+    /*删除*/
+    function rule_del(obj,id){
+        layer.confirm('确认要删除吗？删除后将无法使用此规则，无法恢复。',{icon: 3, title:'提示'},function(index){
+            $.ajax({
+                type:"post",
+                url:"http://localhost:8080/authruledel",
+                data:{id:id},
+                dataType:"json",
+                async:true,
+                success:function(data){
+                    if(data==1){
+                        layer.msg("删除成功！",{icon:6,time:1000});
+                        setTimeout(function(){
+                            window.location.reload();
+                        },1000);return false;
+                    }else{
+                        layer.msg("删除失败！",{icon:5,time:1000});return false;
+                    }
+                }
+            });
+        });
+    }
+</script>
+
+</body>
+</html>

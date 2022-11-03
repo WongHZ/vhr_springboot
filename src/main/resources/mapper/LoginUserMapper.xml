@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huan.vhr_springboot.mapper.LoginUserMapper">
+    <resultMap id="adminlist" type="com.huan.vhr_springboot.entity.LoginUser">
+        <id column="id" property="uid"/>
+        <result column="name" property="uname"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="image" property="image"/>
+        <result column="status" property="status"/>
+        <result column="rid"  property="role.rid"/>
+        <result column="rname" property="role.rname"/>
+        <result column="createtime" property="role.ctime"/>
+    </resultMap>
+    <select id="selectPage" resultMap="adminlist" resultType="com.huan.vhr_springboot.entity.LoginUser">
+        select u.u_id as id,u.u_name as name,u.email as email,u.phone as phone,u.image as image,r.r_id as rid,r.r_name as rname,
+        u.status as status,r.create_time as createtime
+        from user u
+        left join user_role ur on u.u_id = ur.user_id
+        left join role r on r.r_id = ur.role_id
+        <choose>
+            <when test="rid neq null and rid neq 0L">
+                where r.r_id = #{rid} limit #{pageNo},#{pageSize}
+            </when>
+            <otherwise>
+                limit #{pageNo},#{pageSize}
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="selectRole" resultMap="adminlist" resultType="com.huan.vhr_springboot.entity.LoginUser">
+        select u.u_name as name,r.r_name as rname
+        from user u
+        left join user_role ur on u.u_id = ur.user_id
+        left join role r on r.r_id = ur.role_id
+        where u.u_name=#{uname}
+    </select>
+</mapper>

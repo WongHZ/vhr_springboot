@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huan.vhr_springboot.mapper.ChargeMapper">
+    <select id="selectPage" resultType="com.huan.vhr_springboot.entity.Charge">
+        select ch.charge_id as chid,ch.community_id as cid,c.community_name as cname,
+        ch.code as code,ch.name as name,ch.money as price,ch.create_time as createtime,
+        ch.update_time as updatetime
+        from vhr_charge ch
+        left join vhr_community c on ch.community_id = c.community_id
+        where ch.is_deleted=0
+        <choose>
+            <when test="chid neq 0">
+                and ch.charge_id = #{chid} limit #{pageNo},#{pageSize}
+            </when>
+            <otherwise>
+                limit #{pageNo},#{pageSize}
+            </otherwise>
+        </choose>
+    </select>
+
+</mapper>

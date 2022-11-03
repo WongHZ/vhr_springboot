@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huan.vhr_springboot.mapper.RepairMapper">
+    <select id="selectPage" resultType="com.huan.vhr_springboot.entity.Repair">
+        select r.id as rid,r.community_id as cid,c.community_name as cname,r.person_id as pid,
+        p.name as pname,r.device_id as did,d.name as dname,r.admin_name as aname,
+        r.description as descr,r.status as status,r.create_time as createtime,
+        r.update_time as updatetime
+        from vhr_repair r
+        left join vhr_community c on r.community_id = c.community_id
+        left join vhr_personnel p on r.person_id = p.p_id
+        left join vhr_device d on r.device_id = d.id
+        where r.is_deleted=0
+        <choose>
+            <when test="cname neq null and cname neq ''">
+                and r.admin_name = #{cname} limit #{pageNo},#{pageSize}
+            </when>
+            <otherwise>
+                limit #{pageNo},#{pageSize}
+            </otherwise>
+        </choose>
+    </select>
+
+</mapper>

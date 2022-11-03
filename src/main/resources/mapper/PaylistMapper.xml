@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huan.vhr_springboot.mapper.PaylistMapper">
+    <select id="selectPage" resultType="com.huan.vhr_springboot.entity.Paylist">
+        select pa.pid as paid,pa.community_id as cid,c.community_name as cname,pa.person_id as pid,
+        p.name as pname,pa.charge_id as chid,ch.name as chname,ch.money as price,pa.admin_name as aname,
+        pa.description as descr,pa.actual_money as pay,pa.create_time as createtime,
+        pa.update_time as updatetime
+        from vhr_paylist pa
+        left join vhr_community c on pa.community_id = c.community_id
+        left join vhr_personnel p on pa.person_id = p.p_id
+        left join vhr_charge ch on pa.charge_id = ch.charge_id
+        where pa.is_deleted=0
+        <choose>
+            <when test="aname neq null and aname neq ''">
+                and pa.admin_name = #{aname} limit #{pageNo},#{pageSize}
+            </when>
+            <otherwise>
+                limit #{pageNo},#{pageSize}
+            </otherwise>
+        </choose>
+    </select>
+
+</mapper>

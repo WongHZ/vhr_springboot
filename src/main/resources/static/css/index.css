@@ -1,0 +1,119 @@
+html,body,.container-fluid {
+    height: 100%;
+}
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.container-fluid{
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden;
+}
+/*左侧导航栏*/
+.container-fluid > .left {
+    width: 220px;
+    background-color: #333333;
+    height: 100%;
+    float: left;
+    color: #fff;
+}
+.parentNav:hover{
+    background-color: #222222;
+    cursor: pointer;
+}
+.subNav a {
+    color: #fff;
+    font-size: 14px;
+    margin-left: 15px;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+.subNav a:hover {
+    background-color: #222222;
+}
+
+
+.subNav > dd{
+    text-align: center;
+    line-height: 5em;
+    border-bottom: 1px solid #ededed;
+}
+.subNav dd:hover{
+    background-color: #222222;
+}
+
+.container-fluid > .left .parentNav{
+    height: 70px;
+    padding: 0 16px;
+    font-size: 16px;
+    text-align: center;
+    line-height: 5em;
+    border-bottom: 1px solid #ededed
+}
+
+.container-fluid > .left .parentNav:hover{
+    background-color: #222222;
+}
+
+
+/*默认隐藏子导航*/
+.subNav{
+    display: none;
+}
+
+/*标题首页*/
+.left > .title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 4em;
+    border-bottom: 1px solid #ededed;
+    cursor:pointer;
+}
+
+/*右侧*/
+.container-fluid > .right {
+    box-sizing: border-box;
+    height: 100%;
+    background-color: #ededed;
+    margin-left: 220px;
+    padding: 20px 20px;
+}
+.container-fluid > .right >.content {
+    border-radius: 5px;
+    background-color: #ffffff;
+    height: 100%;
+    padding: 1em;
+    box-sizing: border-box;
+}
+/*头部栏*/
+.container-fluid > .right >.content >.mb_nav{
+    border-bottom: 1px solid #ccc;
+    line-height: 2.5em;
+    margin-bottom: .5em;
+    font-size: 16px;
+}
+.mb_nav span{
+    font-size: 14px;
+    color: #222222;
+}
+.mb_nav .span_m{
+    font-size: 18px;
+}
+
+
+.container-fluid > .right >.content >.wrapper{
+    box-sizing: border-box;
+    padding: 1em;
+}
+.right .footer{
+    font-size: 16px;
+    color: gray;
+}
+
+
+
+
