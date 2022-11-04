@@ -51,8 +51,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         }
         //String header = request.getHeader("Authorization");
         String head = request.getHeader("Cookie");
-
-        if(StrUtil.isEmpty(head)){
+        if(! head.contains("Authorization=")){
             throw new BadCredentialsException("令牌为空！请重试！");
         }
         String header = head.substring(head.indexOf("Authorization="));
