@@ -20,3 +20,4 @@
 **3)、权鉴问题**：对于系统的安全权鉴问题，使用了springsecurity框架，此框架可以通过filter链去鉴权，其中可以在yaml项目配置文件配置系统
 忽略权鉴的路径(即公开路径，无权限路径)，需要注意的是，这里并没有使用restful的规定，而是只有get和post两种请求；其余可以根据数据库角色
 所设置的权限去执行；除此之外，使用了jwt对认证的用户进行签发token并保存在cookie，该tooken设置过期时间为一星期。
+**4)、redis设计**：redis使用类型多数为<String,Object>的HashMap，部分welcome数据统计使用String类型。
