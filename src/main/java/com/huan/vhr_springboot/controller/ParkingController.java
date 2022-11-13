@@ -1,5 +1,6 @@
 package com.huan.vhr_springboot.controller;
 
+import com.huan.vhr_springboot.config.Port;
 import com.huan.vhr_springboot.entity.Community;
 import com.huan.vhr_springboot.entity.Parking;
 import com.huan.vhr_springboot.service.CommunityService;
@@ -26,6 +27,8 @@ public class ParkingController {
     CommunityService communityService;
     @Resource
     MakeUtil makeUtil;
+    @Resource
+    Port port;
 
     @GetMapping("/parkinglist")
     public String parkinglist(@RequestParam("page") Long pageNo,
@@ -54,6 +57,7 @@ public class ParkingController {
         model.addAttribute("communities",communities);
         model.addAttribute("current",pageNo);
         model.addAttribute("community_id",cid);
+        model.addAttribute("port",port.getPort());
         return "parkinglist.html";
     }
 
@@ -86,6 +90,7 @@ public class ParkingController {
     public String parkingadd(Model model){
         List<Community> communities = communityService.selectAllCommunityName();
         model.addAttribute("communities",communities);
+        model.addAttribute("port",port.getPort());
         return "park_add.html";
     }
 
@@ -97,6 +102,7 @@ public class ParkingController {
         String preCode = community.getC_code().substring(0,2);
 
         Long cid = community.getCid();
+        System.out.println("+++++++++++djighfjkwef+++++++++" + cid);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Integer result = 0;
         for(int i = 1;i <= num;i++){

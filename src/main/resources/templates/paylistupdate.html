@@ -33,7 +33,8 @@
                         </label>
                         <div class="layui-input-block">
                             <input class="layui-input" name="community_id" th:value="${paylist.cname}" disabled>
-                            <input name="paid" th:value="${paylist.paid}" hidden>
+                            <input type="text" name="port" th:value="${port}" hidden>
+                            <input type="text" name="paid" th:value="${paylist.paid}" hidden>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -113,6 +114,7 @@
         form.on('submit(add)', function(data){
             var descr=$("input[name='descr']").val();
             var pay=$("input[name='pay']").val();
+            var port=$("input[name='port']").val();
             if(descr==""){
                 layer.msg('描述不能为空',{icon:5,time:2000});return false;
             }
@@ -123,7 +125,7 @@
             var data=data.field;
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/paylistupData",
+                url:"http://localhost:"+port+"/paylistupData",
                 data:data,
                 dataType:"json",
                 success:function(data){

@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 5408
   tomcat:
     uri-encoding: utf-8
 
@@ -10,7 +10,6 @@ spring:
       matching-strategy: ant_path_matcher
   thymeleaf:
     encoding: UTF-8
-
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     dynamic:
@@ -19,17 +18,17 @@ spring:
       datasource:
         login:
           url: jdbc:mysql://localhost:3306/vhr_login?useUnicode=true&characterEncoding=utf8
-          username: root
-          password: 19981014
+          username: vhr_login
+          password: JRwRdYYAAFT7mnGP
         master:
           url: jdbc:mysql://localhost:3306/vhr_master?useUnicode=true&characterEncoding=utf8
-          username: root
-          password: 19981014
+          username: vhr_master
+          password: zyw4aMjzmAKNbeZd
     druid:
       stat-view-servlet:
         enabled: true
-        login-username: admin
-        login-password: 111
+        login-username: WongHZ
+        login-password: wzh19981014
       web-stat-filter:
         enabled: true
         exclusions:
@@ -39,20 +38,19 @@ spring:
           enabled: true
         wall:
           enabled: true
-
   redis:
-    host: 192.168.240.128
+    host: 127.0.0.1
     port: 6379
-    pool:
-      max-total: 8
-      max-idle: 8
-      max-wait-millis: -1
-      min-idle: 0
+    jedis:
+      pool:
+        max-idle: 8
+        max-wait: -1
+        min-idle: 0
+        max-active: 8
 
   servlet:
     multipart:
       enabled: true
-      location: D:\OneDrive\vhr_springboot\src\main\resources\static\image
       max-file-size: 10MB
 
 mybatis-plus:
@@ -73,16 +71,8 @@ ignore:
     - "/lib/**"
     - "/ueditor/**"
     - "/image/**"
-    - "/images/**"
-    - "/uimage/**"
-    - "/com/**"
-    - "/cimage/**"
     - "/druid/**"
   post:
     - "/login"
-    - "/register"
-    - "/cimage/**"
-
-
 
 

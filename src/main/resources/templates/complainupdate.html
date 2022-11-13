@@ -24,6 +24,7 @@
 <div class="x-body">
     <form class="layui-form layui-form-pane" action="" id="add">
         <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <input type="text" name="port" th:value="${port}" hidden>
             <input type="text" name="cpid" th:value="${complaints.cpid}" hidden>
             <div class="layui-tab-content" >
                 <div class="layui-tab-item layui-show">
@@ -106,11 +107,11 @@
             if(descr==""){
                 layer.msg('投诉事由不能为空',{icon:5,time:2000});return false;
             }
-
+            var port=$("input[name='port']").val();
             var data=data.field;
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/complainupData",
+                url:"http://localhost:"+port+"/complainupData",
                 data:data,
                 dataType:"json",
                 success:function(data){

@@ -26,7 +26,8 @@
         <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
             <div class="layui-tab-content" >
                 <div class="layui-tab-item layui-show">
-                    <input type="hidden" name="id" value="">
+                    <input type="text" name="port" th:value="${port}" hidden>
+                    <input type="text" name="admin_name" th:value="${admin_name}" hidden>
                     <div class="layui-form-item">
                         <label class="layui-form-label">
                             <span class='x-red'>*</span>所属小区
@@ -39,7 +40,7 @@
                                         th:text="${list.cname}">
                                 </option>
                             </select>
-                            <div class="b" type="button" onclick="selecta()" style="position: absolute;top: 0px;right: -117px;height: 37px;
+                            <div class="b" type="button" th:onclick="selecta([[${port}]])" style="position: absolute;top: 0px;right: -117px;height: 37px;
                             width: 98px;text-align: center;line-height: 38px;color: #fff;background-color: rgb(68,192,216);
                             border-radius: 2px;cursor: pointer">
                                 搜索项目列表
@@ -52,7 +53,7 @@
                         </label>
                         <div class="layui-input-block" id="se2" style="width: 500px;border: 1px solid rgba(230,230,230,.9)">
 
-                            <div class="b" type="button" onclick="selectb()" style="position: absolute;top: 0px;right: -117px;height: 37px;
+                            <div class="b" type="button" th:onclick="selectb([[${port}]])" style="position: absolute;top: 0px;right: -117px;height: 37px;
                             width: 98px;text-align: center;line-height: 38px;color: #fff;background-color: rgb(68,192,216);
                             border-radius: 2px;cursor: pointer">
                                 搜索应收金额
@@ -67,7 +68,6 @@
                         <div class="layui-input-block" style="width: 400px">
                             <input type="text" name="username" placeholder="请输入已登记的业主姓名" onkeyup="find_name()"
                                    class="layui-input" value="">
-                            <input type="text" name="admin_name"th:value="${admin_name}" hidden>
                         </div>
                         <label class="layui-form-item" style="position: absolute;top: 146px;right: 11px;height: 21px;
                             width: 231px;text-align: left;line-height: 38px;">
@@ -161,9 +161,10 @@
                 layer.msg('实收金额不能为空',{icon:5,time:2000});return false;
             }
             var data=data.field;
+            var port=$("input[name='port']").val();
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/paylistaddData",
+                url:"http://localhost:"+port+"/paylistaddData",
                 data:data,
                 dataType:"json",
                 success:function(data){
@@ -189,10 +190,10 @@
 </script>
 
 <script>
-    function selecta(){
+    function selecta(port){
         let cid = $('select[name="community_id"] option:selected').val();
         $.ajax({
-            url: "http://localhost:8080/paylist_charge",
+            url: "http://localhost:"+port+"/paylist_charge",
             type: "post",
             data:{cid:cid},
             dataType:"json",

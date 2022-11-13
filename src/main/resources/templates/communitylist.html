@@ -49,7 +49,7 @@
         </div>
     </form>
     <xblock>
-        <button class="layui-btn" onclick="admin_add('添加','http://localhost:8080/communityadd','1000','600')"><i class="layui-icon">&#xe608;</i>添加</button>
+        <button class="layui-btn" th:onclick="admin_add('添加','http://localhost1:'+[[${port}]]+'/communityadd','1000','600')"><i class="layui-icon">&#xe608;</i>添加</button>
         <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge" th:text="${total}"></span> 条</span>
     </xblock>
     <table class="layui-table">
@@ -114,10 +114,10 @@
             <td th:text="${list.estate_company}"></td>
             <td th:text="${list.createtime}"></td>
             <td class="td-manage">
-                <a title="编辑" href="javascript:;" th:onclick="community_edit('编辑','http://localhost:8080/communityupdate',[[${list.cid}]],'1000','600')" class="ml-5" style="text-decoration:none">
+                <a title="编辑" href="javascript:;" th:onclick="community_edit('编辑','http://127.0.0.1:'+[[${port}]]+'/communityupdate',[[${list.cid}]],'1000','600')" class="ml-5" style="text-decoration:none">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
-                <a title="删除" href="javascript:;" th:onclick="admin_del(this,[[${list.cid}]])"
+                <a title="删除" href="javascript:;" th:onclick="admin_del(this,[[${list.cid}]],[[${port}]])"
                    style="text-decoration:none">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
@@ -200,11 +200,11 @@
         x_admin_show(title,url,w,h);
     }
     /*删除*/
-    function admin_del(obj,id){
+    function admin_del(obj,id,port){
         layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/communitydel",
+                url:"http://localhost:"+port+"/communitydel",
                 data:{id:id},
                 dataType:"json",
                 success:function(data){

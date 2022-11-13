@@ -2,6 +2,7 @@ package com.huan.vhr_springboot.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.huan.vhr_springboot.config.Port;
 import com.huan.vhr_springboot.entity.LoginAuthority;
 import com.huan.vhr_springboot.service.AuthRoleService;
 import com.huan.vhr_springboot.util.MakeUtil;
@@ -27,6 +28,8 @@ public class AuthRoleController {
     AuthRoleService authRoleService;
     @Resource
     MakeUtil makeUtil;
+    @Resource
+    Port port;
 
     /**
      *
@@ -47,6 +50,7 @@ public class AuthRoleController {
         model.addAttribute("total_page",p);
         model.addAttribute("authority_list",authoritylist.getRecords());
         model.addAttribute("current",authoritylist.getCurrent());
+        model.addAttribute("port", port.getPort());
         return "authrule.html";
     }
 

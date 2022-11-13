@@ -1,6 +1,7 @@
 package com.huan.vhr_springboot.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.huan.vhr_springboot.config.Port;
 import com.huan.vhr_springboot.entity.Building;
 import com.huan.vhr_springboot.entity.Community;
 import com.huan.vhr_springboot.entity.LoginUser;
@@ -32,6 +33,8 @@ public class CommunityController {
     BuildingService buildingService;
     @Resource
     MakeUtil makeUtil;
+    @Resource
+    Port port;
 
     /**
      * 获取小区数据
@@ -61,8 +64,15 @@ public class CommunityController {
         model.addAttribute("current",communitylist.getCurrent());
         model.addAttribute("admin_id",adminId);
         model.addAttribute("admin_list",adminlist);
+        model.addAttribute("port", port.getPort());
         return "communitylist.html";
     }
+
+    /*@GetMapping(value = "/com",produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<Community> wxchat(Model model){
+        return communityservice.selectAllCommunity(0L,"").getRecords();
+    }*/
 
     /**
      * 根据姓名查询管理员负责的小区
@@ -119,7 +129,7 @@ public class CommunityController {
 
         //处理图片上传
         String newName = makeUtil.turnFileName(images.getOriginalFilename());
-        images.transferTo(new File("F:\\OneDrive\\vhr_springboot_image\\community\\",newName));
+        images.transferTo(new File("/www/wwwroot/default/vhr_springboot_image/community",newName));
         String image = "cimage/" + newName;
 
         //获取时间戳

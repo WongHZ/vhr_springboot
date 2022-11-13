@@ -41,7 +41,7 @@
         </div>
     </form>
     <xblock>
-        <button class="layui-btn" onclick="pro_add('活动添加','http://localhost:8080/pro_add','600','500')">
+        <button class="layui-btn" th:onclick="pro_add('活动添加','http://localhost:'+[[${port}]]+'/pro_add','600','500')">
             <i class="layui-icon">&#xe608;</i>添加
         </button>
         <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge" th:text="${total}"></span> 条</span>
@@ -77,11 +77,11 @@
             <td th:text="${list.price}"></td>
             <td th:text="${list.createtime}"></td>
             <td class="td-manage">
-                <a title="编辑" href="javascript:;" th:onclick="pro_edit('编辑','http://localhost:8080/pro_update',[[${list.chid}]],'600','500')"
+                <a title="编辑" href="javascript:;" th:onclick="pro_edit('编辑','http://localhost:'+[[${port}]]+'/pro_update',[[${list.chid}]],'600','500')"
                    class="ml-5" style="text-decoration:none">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
-                <a title="删除" href="javascript:;" th:onclick="pro_del(this,[[${list.chid}]])"
+                <a title="删除" href="javascript:;" th:onclick="pro_del(this,[[${list.chid}]],[[${port}]])"
                    style="text-decoration:none">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
@@ -139,11 +139,11 @@
     }
 
     /*删除*/
-    function pro_del(obj,id){
+    function pro_del(obj,id,port){
         layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/pro_del",
+                url:"http://localhost:"+port+"/pro_del",
                 data:{id:id},
                 dataType:"json",
                 success:function(data){

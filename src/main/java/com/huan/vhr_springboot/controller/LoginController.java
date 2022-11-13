@@ -4,11 +4,14 @@ package com.huan.vhr_springboot.controller;
 import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
+import com.huan.vhr_springboot.config.Port;
 import com.huan.vhr_springboot.entity.*;
 import com.huan.vhr_springboot.repository.CustomUserDetails;
 import com.huan.vhr_springboot.service.AdminService;
+import com.huan.vhr_springboot.service.ComplaintService;
 import com.huan.vhr_springboot.util.MakeUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,16 +42,27 @@ import java.util.concurrent.TimeUnit;
 @Controller
 public class LoginController {
     private static final Integer WEEKTTL = 604800;
+    @Autowired
     @Resource
     AuthenticationManager authenticationManager;
     @Resource
+    @Autowired
     PasswordEncoder passwordEncoder;
     @Resource
+    @Autowired
     RedisTemplate<String,Object> redisTemplate;
     @Resource
+    @Autowired
     AdminService adminService;
     @Resource
+    @Autowired
     MakeUtil makeUtil;
+    @Resource
+    @Autowired
+    ComplaintService complaintService;
+    @Resource
+    @Autowired
+    Port port;
 
 
     @GetMapping("/loginpage")
@@ -102,7 +116,9 @@ public class LoginController {
         model.addAttribute("image",principal.getImage());
         model.addAttribute("uname",principal.getUsername());
         model.addAttribute("rname",roleName);
-        return "/index";
+        model.addAttribute("tComplaints",complaintService.totalNew());
+        model.addAttribute("port",port.getPort());
+        return "redirect:/index";
     }
 
 

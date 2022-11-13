@@ -27,6 +27,7 @@
             <div class="layui-tab-content" >
                 <div class="layui-tab-item layui-show">
                     <input type="text" name="rid" th:value="${repairs.rid}" hidden>
+                    <input type="text" name="port"th:value="${port}" hidden>
                     <div class="layui-form-item">
                         <label class="layui-form-label">
                             <span class='x-red'>*</span>所属小区
@@ -42,7 +43,7 @@
                                         th:if="${repairs.cid} neq ${list.cid}" th:hidden>
                                 </option>
                             </select>
-                            <div class="b" type="button" onclick="selecta()" style="position: absolute;top: 0px;right: -117px;height: 37px;
+                            <div class="b" type="button" th:onclick="selecta([[${port}]])" style="position: absolute;top: 0px;right: -117px;height: 37px;
                             width: 98px;text-align: center;line-height: 38px;color: #fff;background-color: rgb(68,192,216);
                             border-radius: 2px;cursor: pointer">
                                 重新选择设备
@@ -109,10 +110,11 @@
 
         //监听提交
         form.on('submit(add)', function(data){
-
+            console.log(device_id)
             var uasername=$("input[name='uasername']").val();
             var descr=$("input[name='descr']").val();
             var community_id=$('#community_id option:selected') .val();//所属栏目ID
+            var device_id=$('#device_id option:selected') .val();
             if(community_id==""){
                 layer.msg('所属小区不能为空',{icon:5,time:2000});return false;
             }
@@ -122,10 +124,14 @@
             if(descr==""){
                 layer.msg('描述不能为空',{icon:5,time:2000});return false;
             }
+            if(device_id=="无"){
+                layer.msg('该小区暂无登记设备，请重新选择！',{icon:5,time:2000});return false;
+            }
             var data=data.field;
+            var port=$("input[name='port']").val();
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/repairupData",
+                url:"http://localhost:"+port+"/repairupData",
                 data:data,
                 dataType:"json",
                 success:function(data){
@@ -150,10 +156,10 @@
 </script>
 <!--栏目缩略图上传-->
 <script>
-    function selecta(){
+    function selecta(port){
         let cid = $('select[name="community_id"] option:selected').val();
         $.ajax({
-            url: "http://localhost:8080/repairget_device",
+            url: "http://localhost:"+port+"/repairget_device",
             type: "post",
             data:{cid:cid},
             dataType:"json",

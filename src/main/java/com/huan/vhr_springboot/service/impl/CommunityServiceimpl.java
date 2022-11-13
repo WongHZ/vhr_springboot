@@ -74,7 +74,7 @@ public class CommunityServiceimpl implements CommunityService {
         LambdaQueryWrapper<Community> wrapper = new LambdaQueryWrapper();
         wrapper.eq(cid != 0L,Community::getCid,cid)
                 .eq(StrUtil.isNotBlank(cname),Community::getCname,cname)
-                .select(Community::getCname,Community::getC_code,Community::getAddress
+                .select(Community::getCid,Community::getCname,Community::getC_code,Community::getAddress
                 ,Community::getArea,Community::getDeveloper,Community::getEstate_company,Community::getGreening_rate
                 ,Community::getTotalbuildings,Community::getTotalhouses,Community::getImage
                 ,Community::getManage);

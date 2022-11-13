@@ -72,6 +72,7 @@
                                    class="layui-input" th:value="${charges.price}">
                         </div>
                     </div>
+                    <input type="text" name="port" th:value="${port}" hidden>
                     <div class="layui-form-item">
                         <button class="layui-btn" type="button" lay-filter="add" lay-submit="">
                             保存
@@ -107,9 +108,9 @@
         //监听提交
         form.on('submit(add)', function(data){
             var community_id=$('#community_id option:selected') .val();//所属栏目ID
-            var code=$("input[name='code']:checked").val();
-            var name=$("input[name='name']:checked").val();
-            var price=$("input[name='price']:checked").val();
+            var code=$("input[name='code']").val();
+            var name=$("input[name='name']").val();
+            var price=$("input[name='price']").val();
             var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
             if(code==""){
                 layer.msg('项目编号不能为空',{icon:5,time:2000});return false;
@@ -127,9 +128,10 @@
                 layer.msg('收费标准必须为金额数！',{icon:5,time:2000});return false;
             }*/
             var data=data.field;
+            var port=$("input[name='port']").val();
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/pro_upData",
+                url:"http://localhost:"+port+"/pro_upData",
                 data:data,
                 dataType:"json",
                 success:function(data){

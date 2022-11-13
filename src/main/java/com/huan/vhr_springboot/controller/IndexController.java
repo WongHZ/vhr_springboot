@@ -1,5 +1,7 @@
 package com.huan.vhr_springboot.controller;
 
+import com.huan.vhr_springboot.config.Port;
+import com.huan.vhr_springboot.entity.Complaint;
 import com.huan.vhr_springboot.entity.Repair;
 import com.huan.vhr_springboot.service.CommunityService;
 import com.huan.vhr_springboot.service.ComplaintService;
@@ -7,6 +9,7 @@ import com.huan.vhr_springboot.service.PersonnelService;
 import com.huan.vhr_springboot.service.RepairService;
 import com.huan.vhr_springboot.util.MakeUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,17 +29,26 @@ import java.util.concurrent.TimeUnit;
 @Controller
 public class IndexController {
     @Resource
+    @Autowired
     CommunityService communityservice;
     @Resource
+    @Autowired
     PersonnelService personnelService;
     @Resource
+    @Autowired
     ComplaintService complaintService;
     @Resource
+    @Autowired
     RepairService repairService;
     @Resource
+    @Autowired
     RedisTemplate redisTemplate;
     @Resource
+    @Autowired
     MakeUtil makeUtil;
+    @Resource
+    @Autowired
+    Port port;
 
     @GetMapping("/welcome")
     public String welcome(Model model){
@@ -60,6 +72,7 @@ public class IndexController {
         model.addAttribute("tPersons",totalPersons);
         model.addAttribute("tBuildings",totalBuildings);
         model.addAttribute("tHouseholds",totalHouseholds);
+        model.addAttribute("port",port.getPort());
         return "welcome.html";
     }
 
@@ -89,6 +102,7 @@ public class IndexController {
         model.addAttribute("uname",username);
         model.addAttribute("rname",rolename);
         model.addAttribute("tComplaints",totalComplaint);
+        model.addAttribute("port",port.getPort());
         return "index.html";
     }
 

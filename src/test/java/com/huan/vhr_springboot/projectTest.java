@@ -105,7 +105,7 @@ public class projectTest {
     @Test
     @DisplayName("房产资料更改")
     public void updateHouse() {
-        String livetime = "2022.07.23";
+        /*String livetime = "2022.07.23";
         Date date = makeUtil.turnDate(livetime);
         House house = new House(1L,1L,"光大锦绣山河","A栋","HM20191213003","光大锦绣山河A栋9层3单元",
                 1L,"王兆桓",13169353122L,4,3,9,date);
@@ -115,7 +115,7 @@ public class projectTest {
                 .set(House::getOId,house.getOId()).set(House::getOName,house.getOName()).set(House::getOPhone,house.getOPhone())
                 .set(House::getRoomNum,house.getRoomNum()).set(House::getUnit,house.getUnit()).set(House::getFloor,house.getFloor())
                 .set(House::getLiveTime,house.getLiveTime());
-        Integer result = houseMapper.update(null,wrapper);
+        Integer result = houseMapper.update(null,wrapper);*/
     }
 
     @Test

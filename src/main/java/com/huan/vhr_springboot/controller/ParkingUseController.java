@@ -2,6 +2,7 @@ package com.huan.vhr_springboot.controller;
 
 import cn.hutool.core.net.URLDecoder;
 import cn.hutool.core.util.StrUtil;
+import com.huan.vhr_springboot.config.Port;
 import com.huan.vhr_springboot.entity.*;
 import com.huan.vhr_springboot.service.*;
 import com.huan.vhr_springboot.util.MakeUtil;
@@ -35,6 +36,8 @@ public class ParkingUseController {
     CommunityService communityService;
     @Resource
     MakeUtil makeUtil;
+    @Resource
+    Port port;
 
     @GetMapping(value = "/parkingusagelist",produces = {"application/json;charset=UTF-8"})
     public String parkingusagelist(@RequestParam("page") Long pageNo,
@@ -65,6 +68,7 @@ public class ParkingUseController {
         model.addAttribute("communities",communities);
         model.addAttribute("current",pageNo);
         model.addAttribute("parking_code",pid);
+        model.addAttribute("port",port.getPort());
         return "parkingusagelist.html";
     }
 
@@ -78,6 +82,7 @@ public class ParkingUseController {
     public String parkinguseadd(Model model){
         List<Community> communities = communityService.selectAllCommunityName();
         model.addAttribute("communities",communities);
+        model.addAttribute("port",port.getPort());
         return "parkingusageadd.html";
     }
 
@@ -86,7 +91,8 @@ public class ParkingUseController {
     public Integer parkinguseaddData(@RequestParam("community_id") Long cid, @RequestParam("parking_code") String parkingCode,
                                      @RequestParam("car_code") String carCode, @RequestParam("personnel_name") String personName,
                                      @RequestParam("type") Integer type, @RequestParam("money")BigDecimal money,
-                                     @RequestParam("start_time")String startTime,@RequestParam("end_time") String endTime){
+                                     @RequestParam("start_time")String startTime,@RequestParam("end_time") String endTime,
+                                     @RequestParam("port") String port){
         Parking parking = parkingService.selectParkingByCarcode(parkingCode);
         if(StrUtil.isBlankIfStr(parking)){
             return 0;
@@ -126,6 +132,7 @@ public class ParkingUseController {
         model.addAttribute("cname",community.getCname());
         model.addAttribute("parkingUse",parkingUse);
         model.addAttribute("id",id);
+        model.addAttribute("port",port.getPort());
         return "parkinguseupdate.html";
     }
 
@@ -138,7 +145,8 @@ public class ParkingUseController {
                                     @RequestParam("start_time")String startTime,@RequestParam("end_time") String endTime,
                                     @RequestParam("old_pcode") String oldpcode, @RequestParam("old_ccode") String old_ccode,
                                     @RequestParam("old_pname") String old_pname, @RequestParam("old_money")BigDecimal old_money,
-                                    @RequestParam("old_start")String old_start,@RequestParam("old_end") String old_end){
+                                    @RequestParam("old_start")String old_start,@RequestParam("old_end") String old_end,
+                                    @RequestParam("port") String port){
 
         Parking parking;
         if(! StrUtil.equals(parkingCode,oldpcode)){

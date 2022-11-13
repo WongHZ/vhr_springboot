@@ -26,7 +26,7 @@
 </div>
 <div class="x-body">
     <xblock>
-        <button class="layui-btn" onclick="rule_add('添加权限','http://localhost:8080/auth_ruleadd','650','450')"><i class="layui-icon">&#xe608;</i>添加</button>
+        <button class="layui-btn" th:onclick="rule_add('添加权限','http://localhost:'+[[${port}}]]+'/auth_ruleadd','650','450')"><i class="layui-icon">&#xe608;</i>添加</button>
         <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge" th:text="${total}"></span> 条</span>
     </xblock>
 
@@ -58,7 +58,7 @@
             <td th:text="${list.description}"></td>
             <td th:text="${list.method}"></td>
             <td class="td-status">
-                <span th:if="${list.status eq 1}" class="layui-btn layui-btn-normal " th:onclick="rule_status(this,[[${list.aid}]],[[${list.status}]],[[${current}]])"> 启用 </span>
+                <span th:if="${list.status eq 1}" class="layui-btn layui-btn-normal " th:onclick="rule_status(this,[[${list.aid}]],[[${list.status}]],[[${current}]],[[${port}]])"> 启用 </span>
                 <span th:if="${list.status eq 0}" class="layui-btn layui-btn-danger " th:onclick="rule_status(this,[[${list.aid}]],[[${list.status}]],[[${current}]])"> 停用 </span>
             </td>
         </tr>
@@ -109,11 +109,11 @@
     /**
      * 权限状态
      **/
-    function rule_status(obj,id,e,page) {
+    function rule_status(obj,id,e,page,port) {
         layer.confirm(e==0?'你确定要启用该权限规则吗？':'你确定要停用该权限规则吗？',{icon: 3, title:'提示'},function(index){
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/authrulestatus",
+                url:"http://localhost:"+port+"/authrulestatus",
                 data:{id:id,status:e,page:page},
                 dataType:"json",
                 success:function(data)

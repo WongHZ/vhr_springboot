@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.annotation.Resource;
@@ -53,8 +54,10 @@ public class SecurityConfig {
                 .csrf().disable()
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions
-                                .sameOrigin()
+                                .disable()
                         )
+                        .referrerPolicy(referrer -> referrer
+                                .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.NO_REFERRER))
                 )
                 .authorizeHttpRequests(auth -> auth
                     .requestMatchers(requestMatchers).permitAll()

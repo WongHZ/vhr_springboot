@@ -1,6 +1,7 @@
 package com.huan.vhr_springboot.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.huan.vhr_springboot.config.Port;
 import com.huan.vhr_springboot.entity.*;
 import com.huan.vhr_springboot.service.*;
 import com.huan.vhr_springboot.util.MakeUtil;
@@ -33,6 +34,8 @@ public class PaylistController {
     AdminService adminService;
     @Resource
     MakeUtil makeUtil;
+    @Resource
+    Port port;
 
     @GetMapping(value = "/paylist",produces = {"application/json;charset=UTF-8"})
     public String paylist(@RequestParam("page") Long pageNo,
@@ -66,6 +69,7 @@ public class PaylistController {
         model.addAttribute("admin_list",adminlist);
         model.addAttribute("current",pageNo);
         model.addAttribute("admin_id",aid);
+        model.addAttribute("port",port.getPort());
         return "paylist.html";
     }
 
@@ -77,6 +81,7 @@ public class PaylistController {
         List<Community> communities = communityService.selectAllCommunityName();
         model.addAttribute("communities",communities);
         model.addAttribute("admin_name",username);
+        model.addAttribute("port",port.getPort());
         return "paylistadd.html";
     }
 
@@ -84,7 +89,8 @@ public class PaylistController {
     @ResponseBody
     public Integer paylistaddData(@RequestParam("community_id") Long cid,@RequestParam("charge_id") String cname,
                                  @RequestParam("admin_name") String adminName,@RequestParam("username") String pname,
-                                 @RequestParam("descr") String description,@RequestParam("pay") BigDecimal pay){
+                                 @RequestParam("descr") String description,@RequestParam("pay") BigDecimal pay,
+                                 @RequestParam("port") String port){
         Charge charge = chargeService.selectDataByChidOrCode(0L,null,cname);
         Long pid = personnelService.selectOidByOname(pname);
         Paylist paylist = new Paylist(0L,cid,charge.getChid(),pid,pay,description,adminName);
@@ -134,6 +140,7 @@ public class PaylistController {
         List<Community> communities = communityService.selectAllCommunityName();
         model.addAttribute("communities",communities);
         model.addAttribute("paylist",paylist);
+        model.addAttribute("port",port.getPort());
         return "paylistupdate.html";
     }
 

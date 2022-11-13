@@ -24,8 +24,7 @@
 <div class="x-body">
     <form class="layui-form layui-form-pane" action="" id="add">
         <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-
-
+            <input type="text" name="port" th:value="${port}" hidden>
             <div class="layui-tab-content" >
                 <div class="layui-tab-item layui-show">
                     <input type="text" name="admin_name" th:value="${admin_name}" hidden>
@@ -113,11 +112,11 @@
             if(descr==""){
                 layer.msg('投诉事由不能为空',{icon:5,time:2000});return false;
             }
-
+            var port=$("input[name='port']").val();
             var data=data.field;
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/complainaddData",
+                url:"http://localhost:"+port+"/complainaddData",
                 data:data,
                 dataType:"json",
                 success:function(data){
@@ -141,8 +140,9 @@
 <script>
     function find_name(){
         let pname = $('input[name="username"]').val();
+        var port=$("input[name='port']").val();
         $.ajax({
-            url: "http://localhost:8080/complainget_person",
+            url: "http://localhost:"+port+"/complainget_person",
             type: "post",
             data:{pname:pname},
             dataType:"json",

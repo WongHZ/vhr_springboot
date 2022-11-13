@@ -1,6 +1,7 @@
 package com.huan.vhr_springboot.controller;
 
 import cn.hutool.core.net.URLDecoder;
+import com.huan.vhr_springboot.config.Port;
 import com.huan.vhr_springboot.entity.*;
 import com.huan.vhr_springboot.service.ChargeService;
 import com.huan.vhr_springboot.service.CommunityService;
@@ -29,9 +30,9 @@ public class ChargeController {
     @Resource
     CommunityService communityService;
     @Resource
-    RedisTemplate redisTemplate;
-    @Resource
     MakeUtil makeUtil;
+    @Resource
+    Port port;
 
     @GetMapping(value = "/pro_list",produces = {"application/json;charset=UTF-8"})
     public String pro_list(@RequestParam("page") Long pageNo,
@@ -58,6 +59,7 @@ public class ChargeController {
         model.addAttribute("charge_list",chargeList);
         model.addAttribute("current",pageNo);
         model.addAttribute("chid",chid);
+        model.addAttribute("port", port.getPort());
         return "pro_list.html";
     }
 
@@ -80,13 +82,15 @@ public class ChargeController {
     public String pro_add(Model model){
         List<Community> communities = communityService.selectAllCommunityName();
         model.addAttribute("communities",communities);
+        model.addAttribute("port", port.getPort());
         return "pro_add.html";
     }
 
     @PostMapping("/pro_addData")
     @ResponseBody
     public Integer pro_addData(@RequestParam("community_id") Long cid, @RequestParam("name") String name,
-                               @RequestParam("code") String code, @RequestParam("price")BigDecimal price){
+                               @RequestParam("code") String code, @RequestParam("price")BigDecimal price,
+                               @RequestParam("port") String port){
         Charge charge = new Charge(0L,cid,code,name,price);
         Integer result = chargeService.addCharge(charge);
         return result;
@@ -100,6 +104,7 @@ public class ChargeController {
         List<Community> communities = communityService.selectAllCommunityName();
         model.addAttribute("communities",communities);
         model.addAttribute("charges",charge);
+        model.addAttribute("port", port.getPort());
         return "pro_update.html";
     }
 
@@ -107,7 +112,7 @@ public class ChargeController {
     @ResponseBody
     public Integer pro_upData(@RequestParam("chid") Long chid,@RequestParam("community_id") Long cid,
                               @RequestParam("name") String name,@RequestParam("code") String code,
-                              @RequestParam("price")BigDecimal price){
+                              @RequestParam("price")BigDecimal price,@RequestParam("port") String port){
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Charge charge = new Charge(chid,cid,code,name,price,timestamp);
         Integer result = chargeService.upCharge(charge);

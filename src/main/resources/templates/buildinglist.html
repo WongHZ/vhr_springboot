@@ -49,7 +49,7 @@
         </div>
     </form>
     <xblock>
-        <button class="layui-btn" onclick="building_add('添加栋数','http://localhost:8080/buildingadd','700','400')">
+        <button class="layui-btn" th:onclick="building_add('添加栋数','http://localhost:'+[[${port}]]+'/buildingadd','700','400')">
             <i class="layui-icon">&#xe608;</i>添加
         </button>
         <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge" th:text="${total}"></span> 条</span>
@@ -81,7 +81,7 @@
             <td th:text="${list.totalhouses}"></td>
             <td th:text="${list.createtime}"></td>
             <td class="td-manage">
-                <a title="删除" href="javascript:;" th:onclick="building_del(this,[[${list.id}]])"
+                <a title="删除" href="javascript:;" th:onclick="building_del(this,[[${list.id}]],[[${port}]])"
                    style="text-decoration:none">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
@@ -144,11 +144,11 @@
     }
 
     /*删除*/
-    function building_del(obj,id){
+    function building_del(obj,id,port){
         layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/buildingdel",
+                url:"http://localhost:"+port+"/buildingdel",
                 data:{id:id},
                 dataType:"json",
                 success:function(data){

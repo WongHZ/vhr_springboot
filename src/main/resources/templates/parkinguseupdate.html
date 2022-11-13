@@ -25,8 +25,7 @@
 <div class="x-body">
     <form class="layui-form layui-form-pane" action="" id="add">
         <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-
-
+            <input type="text" name="port" th:value="${port}" hidden>
             <div class="layui-tab-content" >
                 <div class="layui-tab-item layui-show">
                     <input type="hidden" name="id" value="">
@@ -197,6 +196,7 @@
             var car_code=$("input[name='car_code']").val();
             var veh_name=$("input[name='personnel_name']").val();
             var type=$("input[name='type']:checked").val();
+            var port=$("input[name='port']").val();
 
             if(community_id==""){
                 layer.msg('所属小区不能为空',{icon:5,time:2000});return false;
@@ -216,7 +216,7 @@
             var data=data.field;
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/parkinguseupData",
+                url:"http://localhost:"+port+"/parkinguseupData",
                 data:data,
                 dataType:"json",
                 success:function(data){

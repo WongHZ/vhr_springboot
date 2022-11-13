@@ -29,6 +29,7 @@
             <div class="layui-tab-content" >
                 <div class="layui-tab-item layui-show">
                     <input type="text" name="admin_name"th:value="${admin_name}" hidden>
+                    <input type="text" name="port"th:value="${port}" hidden>
                     <div class="layui-form-item">
                         <label class="layui-form-label">
                             <span class='x-red'>*</span>所属小区
@@ -41,7 +42,7 @@
                                         th:text="${list.cname}">
                                 </option>
                             </select>
-                            <div class="b" type="button" onclick="selecta()" style="position: absolute;top: 0px;right: -117px;height: 37px;
+                            <div class="b" type="button" th:onclick="selecta([[${port}]])" style="position: absolute;top: 0px;right: -117px;height: 37px;
                             width: 98px;text-align: center;line-height: 38px;color: #fff;background-color: rgb(68,192,216);
                             border-radius: 2px;cursor: pointer">
                                 展示设备列表
@@ -59,7 +60,8 @@
                             <span class='x-red'>*</span>报修人员
                         </label>
                         <div class="layui-input-block" style="width: 400px">
-                            <input type="text" name="username" placeholder="请输入已登记的业主姓名" onkeyup="find_name()"
+                            <input type="text" name="username" placeholder="请输入已登记的业主姓名"
+                                   th:onkeyup="find_name([[${port}]])"
                                    class="layui-input" value="">
                         </div>
                         <label class="layui-form-item" style="position: absolute;top: 146px;right: 159px;height: 21px;
@@ -139,9 +141,10 @@
                 layer.msg('描述不能为空',{icon:5,time:2000});return false;
             }
             var data=data.field;
+            var port=$("input[name='port']").val();
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/repairaddData",
+                url:"http://localhost:"+port+"/repairaddData",
                 data:data,
                 dataType:"json",
                 success:function(data){
@@ -166,10 +169,10 @@
 </script>
 <!--栏目缩略图上传-->
 <script>
-    function selecta(){
+    function selecta(port){
         let cid = $('select[name="community_id"] option:selected').val();
         $.ajax({
-            url: "http://localhost:8080/repairget_device",
+            url: "http://localhost:"+port+"/repairget_device",
             type: "post",
             data:{cid:cid},
             dataType:"json",
@@ -202,10 +205,10 @@
         });
     }
 
-    function find_name(){
+    function find_name(port){
         let pname = $('input[name="username"]').val();
         $.ajax({
-            url: "http://localhost:8080/repairget_person",
+            url: "http://localhost:"+port+"/repairget_person",
             type: "post",
             data:{pname:pname},
             dataType:"json",

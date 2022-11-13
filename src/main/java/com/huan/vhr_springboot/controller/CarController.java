@@ -2,6 +2,7 @@ package com.huan.vhr_springboot.controller;
 
 import cn.hutool.core.net.URLDecoder;
 import com.huan.vhr_springboot.entity.Car;
+import com.huan.vhr_springboot.config.Port;
 import com.huan.vhr_springboot.service.CarService;
 import com.huan.vhr_springboot.service.HouseService;
 import com.huan.vhr_springboot.util.MakeUtil;
@@ -30,6 +31,9 @@ public class CarController {
     HouseService houseService;
     @Resource
     MakeUtil makeUtil;
+    @Resource
+    Port port;
+
 
     /**
      * 多表查询家庭所属车列表
@@ -70,6 +74,7 @@ public class CarController {
         model.addAttribute("car_list",carslist);
         model.addAttribute("current",pageNo);
         model.addAttribute("house_id",houseId);
+        model.addAttribute("port", port.getPort());
         return "vehicle_list.html";
     }
 

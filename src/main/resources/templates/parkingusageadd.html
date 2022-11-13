@@ -29,7 +29,7 @@
 
             <div class="layui-tab-content" >
                 <div class="layui-tab-item layui-show">
-                    <input type="hidden" name="id" value="">
+                    <input type="text" name="port" th:value="${port}" hidden>
                     <div class="layui-form-item">
                         <label class="layui-form-label">
                             <span class='x-red'>*</span>所属小区
@@ -186,6 +186,7 @@
             var start_time=$("input[name='start_time']").val();
             var end_time=$("input[name='end_time']").val();
             var type=$("input[name='type']:checked").val();
+            var port=$("input[name='port']").val();
 
             if(community_id==""){
                 layer.msg('所属小区不能为空',{icon:5,time:2000});return false;
@@ -211,7 +212,7 @@
             var data=data.field;
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/parkinguseaddData",
+                url:"http://localhost:"+port+"/parkinguseaddData",
                 data:data,
                 dataType:"json",
                 success:function(data){

@@ -1,6 +1,7 @@
 package com.huan.vhr_springboot.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.huan.vhr_springboot.config.Port;
 import com.huan.vhr_springboot.entity.*;
 import com.huan.vhr_springboot.service.AdminService;
 import com.huan.vhr_springboot.service.CommunityService;
@@ -33,6 +34,8 @@ public class ComplainController {
     AdminService adminService;
     @Resource
     MakeUtil makeUtil;
+    @Resource
+    Port port;
 
     @GetMapping(value = "/complainlist",produces = {"application/json;charset=UTF-8"})
     public String complainlist(@RequestParam("page") Long pageNo,
@@ -66,6 +69,7 @@ public class ComplainController {
         model.addAttribute("admin_list",adminlist);
         model.addAttribute("current",pageNo);
         model.addAttribute("admin_id",aid);
+        model.addAttribute("port",port.getPort());
         return "complainlist.html";
     }
 
@@ -89,6 +93,7 @@ public class ComplainController {
         List<Community> communities = communityService.selectAllCommunityName();
         model.addAttribute("communities",communities);
         model.addAttribute("admin_name",username);
+        model.addAttribute("port",port.getPort());
         return "complainadd.html";
     }
 
@@ -123,6 +128,7 @@ public class ComplainController {
         List<Community> communities = communityService.selectAllCommunityName();
         model.addAttribute("communities",communities);
         model.addAttribute("complaints",complaint);
+        model.addAttribute("port",port.getPort());
         return "complainupdate.html";
     }
 

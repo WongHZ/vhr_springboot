@@ -49,7 +49,7 @@
         </div>
     </form>
     <xblock>
-        <button class="layui-btn" onclick="park_add('添加车位','http://localhost:8080/parkingadd','700','400')">
+        <button class="layui-btn" th:onclick="park_add('添加车位','http://localhost:'+[[${port}]]+'/parkingadd','700','400')">
             <i class="layui-icon">&#xe608;</i>添加
         </button>
         <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge" th:text="${total}"></span> 条</span>
@@ -84,11 +84,14 @@
                     <td th:text="${list.name}"></td>
                     <td th:text="${list.createtime}"></td>
                     <td class="td-status">
-                        <span th:if="${list.status eq 1}" class="layui-btn layui-btn-danger " th:onclick="start(this,[[${list.id}]],[[${list.status}]])"> 使用中 </span>
-                        <span th:if="${list.status eq 0}" class="layui-btn layui-btn-normal " th:onclick="start(this,[[${list.id}]],[[${list.status}]])"> 闲置中 </span>
+                        <span th:if="${list.status eq 1}" class="layui-btn layui-btn-danger "
+                              th:onclick="start(this,[[${list.id}]],[[${list.status}]],[[${port}]])"> 使用中 </span>
+
+                        <span th:if="${list.status eq 0}" class="layui-btn layui-btn-normal "
+                              th:onclick="start(this,[[${list.id}]],[[${list.status}]],[[${port}]])"> 闲置中 </span>
                     </td>
                     <td class="td-manage">
-                        <a title="删除" href="javascript:;" onclick="park_del(this,'5')"
+                        <a title="删除" href="javascript:;" th:onclick="park_del(this,'5',[[${port}]])"
                            style="text-decoration:none">
                             <i class="layui-icon">&#xe640;</i>
                         </a>
@@ -144,11 +147,11 @@
     }
 
     /*删除*/
-    function park_del(obj,id){
+    function park_del(obj,id,port){
         layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/parkingdel",
+                url:"http://localhost:"+port+"/parkingdel",
                 data:{id:id},
                 dataType:"json",
                 success:function(data){
@@ -171,11 +174,11 @@
         });
     }
 
-    function start(obj,id,e){
+    function start(obj,id,e,port){
         layer.confirm(e==1?'确定要闲置吗？':'确定要使用吗？',{icon: 3, title:'提示'},function(index){
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/parkingstatus",
+                url:"http://localhost:"+port+"/parkingstatus",
                 data:{id:id,status:e},
                 dataType:"json",
                 success:function(data)

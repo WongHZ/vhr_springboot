@@ -178,6 +178,7 @@ public class ParkingServiceimpl implements ParkingService {
      */
     @Transactional
     public Integer parkingadd(Parking parking){
+        System.out.println(parking.getCid());
         Integer result = parkingMapper.insert(parking);
         return result;
     }

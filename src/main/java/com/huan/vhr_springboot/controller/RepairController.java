@@ -1,11 +1,11 @@
 package com.huan.vhr_springboot.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.huan.vhr_springboot.config.Port;
 import com.huan.vhr_springboot.entity.*;
 import com.huan.vhr_springboot.service.*;
 import com.huan.vhr_springboot.util.MakeUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +32,7 @@ public class RepairController {
     @Resource
     AdminService adminService;
     @Resource
-    RedisTemplate redisTemplate;
+    Port port;
     @Resource
     MakeUtil makeUtil;
 
@@ -68,6 +68,7 @@ public class RepairController {
         model.addAttribute("admin_list",adminlist);
         model.addAttribute("current",pageNo);
         model.addAttribute("admin_id",aid);
+        model.addAttribute("port",port.getPort());
         return "repairlist.html";
     }
 
@@ -91,6 +92,7 @@ public class RepairController {
         List<Community> communities = communityService.selectAllCommunityName();
         model.addAttribute("communities",communities);
         model.addAttribute("admin_name",username);
+        model.addAttribute("port",port.getPort());
         return "repairadd.html";
     }
 
@@ -98,7 +100,7 @@ public class RepairController {
     @ResponseBody
     public Integer repairaddData(@RequestParam("community_id") Long cid,@RequestParam("device_id") String dname,
                                  @RequestParam("admin_name") String adminName,@RequestParam("username") String pname,
-                                 @RequestParam("descr") String description){
+                                 @RequestParam("descr") String description,@RequestParam("port") String port){
         Device device = deviceService.selectDataBydidOrDname(0L,cid,dname);
         Long pid = personnelService.selectOidByOname(pname);
         Repair repair = new Repair(0L,cid,pid,device.getDid(),adminName,description);
@@ -111,11 +113,17 @@ public class RepairController {
     @ResponseBody
     public String[] repairget_device(@RequestParam("cid") Long cid){
         List<Device> devices = deviceService.selectAllDeviceName(cid);
-        String[] name = new String[devices.size()];
-        for(int i = 0; i < name.length;i++){
-            name[i] = devices.get(i).getName();
+        if(! devices.isEmpty()){
+            String[] name = new String[devices.size()];
+            for(int i = 0; i < name.length;i++){
+                name[i] = devices.get(i).getName();
+            }
+            return name;
+        }else {
+            String[] name = new String[1];
+            name[0] = "无";
+            return name;
         }
-        return name;
     }
 
     @PostMapping("/repairget_person")
@@ -139,6 +147,7 @@ public class RepairController {
         List<Community> communities = communityService.selectAllCommunityName();
         model.addAttribute("communities",communities);
         model.addAttribute("repairs",repair);
+        model.addAttribute("port",port.getPort());
         return "repairupdate.html";
     }
 
@@ -146,7 +155,7 @@ public class RepairController {
     @ResponseBody
     public Integer repairupData(@RequestParam("community_id") Long cid,@RequestParam("device_id") String dname,
                                 @RequestParam("username") String pname, @RequestParam("descr") String description,
-                                @RequestParam("rid") Long rid){
+                                @RequestParam("rid") Long rid,@RequestParam("port") String port){
         Long pid = personnelService.selectOidByOname(pname);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Device device = deviceService.selectDataBydidOrDname(0L,cid,dname);

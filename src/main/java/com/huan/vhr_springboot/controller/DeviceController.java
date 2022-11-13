@@ -1,5 +1,6 @@
 package com.huan.vhr_springboot.controller;
 
+import com.huan.vhr_springboot.config.Port;
 import com.huan.vhr_springboot.entity.Community;
 import com.huan.vhr_springboot.entity.Device;
 import com.huan.vhr_springboot.service.CommunityService;
@@ -28,6 +29,8 @@ public class DeviceController {
     CommunityService communityService;
     @Resource
     MakeUtil makeUtil;
+    @Resource
+    Port port;
 
     @GetMapping(value = "/device_list",produces = {"application/json;charset=UTF-8"})
     public String device_list(@RequestParam("page") Long pageNo,
@@ -56,6 +59,7 @@ public class DeviceController {
         model.addAttribute("communities",communities);
         model.addAttribute("current",pageNo);
         model.addAttribute("community_id",cid);
+        model.addAttribute("port",port.getPort());
         return "device_list.html";
     }
 
@@ -68,6 +72,7 @@ public class DeviceController {
     public String device_add(Model model){
         List<Community> communities = communityService.selectAllCommunityName();
         model.addAttribute("communities",communities);
+        model.addAttribute("port",port.getPort());
         return "device_add.html";
     }
 
@@ -101,6 +106,7 @@ public class DeviceController {
         model.addAttribute("com",community);
         model.addAttribute("device",device);
         model.addAttribute("current",page);
+        model.addAttribute("port",port.getPort());
         return "device_update.html";
     }
 

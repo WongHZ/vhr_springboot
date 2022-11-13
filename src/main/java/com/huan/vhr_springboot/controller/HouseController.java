@@ -2,6 +2,7 @@ package com.huan.vhr_springboot.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.huan.vhr_springboot.config.Port;
 import com.huan.vhr_springboot.entity.Community;
 import com.huan.vhr_springboot.entity.House;
 import com.huan.vhr_springboot.service.CommunityService;
@@ -35,6 +36,8 @@ public class HouseController {
     PersonnelService personnelService;
     @Resource
     MakeUtil makeUtil;
+    @Resource
+    Port port;
 
     /**
      * 查找个人房产所有的数据并返回到模板里
@@ -64,6 +67,7 @@ public class HouseController {
         model.addAttribute("house",houselist.getRecords());
         model.addAttribute("current",houselist.getCurrent());
         model.addAttribute("owner_id",ownerId);
+        model.addAttribute("port",port.getPort());
         return "houselist.html";
     }
 

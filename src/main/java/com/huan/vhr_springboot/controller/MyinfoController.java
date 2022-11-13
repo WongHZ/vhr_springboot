@@ -1,5 +1,6 @@
 package com.huan.vhr_springboot.controller;
 
+import com.huan.vhr_springboot.config.Port;
 import com.huan.vhr_springboot.entity.LoginUser;
 import com.huan.vhr_springboot.service.AdminService;
 import com.huan.vhr_springboot.util.MakeUtil;
@@ -26,6 +27,8 @@ public class MyinfoController {
     PasswordEncoder passwordEncoder;
     @Resource
     MakeUtil makeUtil;
+    @Resource
+    Port port;
 
     @GetMapping("/myinfo")
     public String myinfo(HttpServletRequest request,Model model){
@@ -40,13 +43,15 @@ public class MyinfoController {
         Long nuid = Long.parseLong(uid);
         LoginUser user = new LoginUser(nuid,username,null,email,nphone,image,0);
         model.addAttribute("user",user);
+        model.addAttribute("port",port.getPort());
         return "myinfo.html";
     }
 
     @PostMapping("/changeinfo")
     @ResponseBody
     public Integer changeinfo(@RequestParam("name") String name,@RequestParam("phone") Long phone,
-                              @RequestParam("email") String email,@RequestParam("uid") Long uid){
+                              @RequestParam("email") String email,@RequestParam("uid") Long uid,
+                              @RequestParam("port") String port){
         LoginUser user = new LoginUser(uid,name,null,email,phone,null,null);
         Integer result = adminService.updateUser(user);
         return result;

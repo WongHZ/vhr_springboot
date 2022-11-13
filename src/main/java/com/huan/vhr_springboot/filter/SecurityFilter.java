@@ -51,7 +51,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         }
         //String header = request.getHeader("Authorization");
         String head = request.getHeader("Cookie");
-        if(! head.contains("Authorization=")){
+        if(! head.contains("Authorization")){
             throw new BadCredentialsException("令牌为空！请重试！");
         }
         String header = head.substring(head.indexOf("Authorization="));
@@ -60,6 +60,9 @@ public class SecurityFilter extends OncePerRequestFilter {
             throw new BadCredentialsException("令牌类型不正确！");
         }
         String token = header2.substring(7);
+        if(token.contains(";")){
+            token = token.substring(0,token.indexOf(";"));
+        }
         log.info("token为：" + token);
         JWTSigner jwtSigner = JWTSignerUtil.hs512("vhr_login".getBytes(StandardCharsets.UTF_8));
         if(!JWTUtil.verify(token,jwtSigner)){

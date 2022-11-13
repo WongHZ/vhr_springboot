@@ -28,6 +28,7 @@
                 <div class="layui-tab-item layui-show">
                     <input type="text" name="did" th:value="${device.getDid()}" hidden>
                     <input type="text" name="page" th:value="${current}" hidden>
+                    <input type="text" name="port" th:value="${port}" hidden>
                     <div class="layui-form-item">
                         <label class="layui-form-label">
                             <span class='x-red'>*</span>所属小区
@@ -176,11 +177,11 @@
             if(eu_life==""){
                 layer.msg('预计使用年限不能为空',{icon:5,time:1000});return false;
             }
-
+            var port=$("input[name='port']").val();
             var data=data.field;
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/device_upData",
+                url:"http://localhost:"+port+"/device_upData",
                 data:data,
                 dataType:"json",
                 success:function(data){

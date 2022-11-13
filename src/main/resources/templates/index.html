@@ -68,7 +68,7 @@
                         <dd><a href="javascript:;"  onclick="one_set('个人信息','http://localhost:8080/myinfo','1000','600')">个人信息</a>
                         </dd>
 
-                        <dd><a href="javascript:;" onclick="logout()">退出</a></dd>
+                        <dd><a href="javascript:;" th:onclick="logout([[${port}]])">退出</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item x-index"><a href="#"></a></li>
@@ -210,10 +210,10 @@
      * 退出登陆
      * 2019年8月17日19:43:15
      */
-    function logout() {
+    function logout(port) {
         $.ajax({
             type:"get",
-            url:"http://localhost:8080/logouts",
+            url:"http://localhost:"+port+"/logouts",
             dataType:"json",
             success:function (data) {
                 if(data==1){

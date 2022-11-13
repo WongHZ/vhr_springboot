@@ -157,14 +157,15 @@ public class DeviceServiceimpl implements DeviceService {
     public List<Device> selectAllDeviceName(Long cid){
         LambdaQueryWrapper<Device> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Device::getCid,cid).select(Device::getName);
-        if(! redisTemplate.opsForHash().hasKey(PREFIX + "_name","cid_" + cid)){
+        if(! redisTemplate.opsForHash().hasKey(PREFIX + "name","cid_" + cid)){
             List<Device> devices = deviceMapper.selectList(wrapper);
-            redisTemplate.opsForHash().put(PREFIX + "_name","cid_" + cid,devices);
-            redisTemplate.expire(PREFIX + "_name",makeUtil.redisttl(DAYTTL), TimeUnit.SECONDS);
+            redisTemplate.opsForHash().put(PREFIX + "name","cid_" + cid,devices);
+            redisTemplate.expire(PREFIX + "name",makeUtil.redisttl(DAYTTL), TimeUnit.SECONDS);
             log.info("cid为{}的数据从数据库拿",cid);
             return devices;
         }else {
-            List<Device> devices = (List<Device>) redisTemplate.opsForHash().get(PREFIX + "device_name","cid_" + cid);
+            List<Device> devices = (List<Device>) redisTemplate.opsForHash()
+                    .get(PREFIX + "name","cid_" + cid);
             log.info("cid为{}的数据从redis拿",cid);
             return devices;
         }

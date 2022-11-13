@@ -2,6 +2,7 @@ package com.huan.vhr_springboot.controller;
 
 import cn.hutool.core.net.URLDecoder;
 import cn.hutool.core.util.StrUtil;
+import com.huan.vhr_springboot.config.Port;
 import com.huan.vhr_springboot.entity.*;
 import com.huan.vhr_springboot.entity.enums.PersonTypeEnum;
 import com.huan.vhr_springboot.entity.enums.SexEnum;
@@ -38,6 +39,8 @@ public class PersonnelController {
     HouseService houseService;
     @Resource
     MakeUtil makeUtil;
+    @Resource
+    Port port;
     /**
      * 获取成员数据
      * @param pageNo 接收当前页数
@@ -79,6 +82,7 @@ public class PersonnelController {
         model.addAttribute("personnel_list",personnellist);
         model.addAttribute("current",pageNo);
         model.addAttribute("house_code",houseCode);
+        model.addAttribute("port",port.getPort());
         return "personnel_list.html";
     }
 

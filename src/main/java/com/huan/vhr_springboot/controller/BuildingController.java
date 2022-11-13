@@ -1,6 +1,7 @@
 package com.huan.vhr_springboot.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.huan.vhr_springboot.config.Port;
 import com.huan.vhr_springboot.entity.Building;
 import com.huan.vhr_springboot.entity.Community;
 import com.huan.vhr_springboot.service.BuildingService;
@@ -26,6 +27,8 @@ public class BuildingController {
     CommunityService communityService;
     @Resource
     MakeUtil makeUtil;
+    @Resource
+    Port port;
 
     /**
      * 获取楼栋列表所有数据
@@ -58,6 +61,7 @@ public class BuildingController {
         model.addAttribute("current",buildinglist.getCurrent());
         model.addAttribute("community_id",communityId);
         model.addAttribute("community_list",communitylist);
+        model.addAttribute("port", port.getPort());
         return "buildinglist.html";
     }
 
