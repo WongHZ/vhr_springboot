@@ -13,12 +13,14 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.*;
 
 @Slf4j
 @Aspect
 @Component
 @EnableAspectJAutoProxy
-public class AdminAop {
+public class AdminAop{
+    private ThreadPoolExecutor service = new ThreadPoolExecutor(1,5, 30, TimeUnit.SECONDS, new SynchronousQueue<>());
     private static final String PREFIX = "admin_";
     @Resource
     RedisTemplate redisTemplate;
@@ -31,18 +33,18 @@ public class AdminAop {
     public void adminChangeStatusPointCut(){
     }
 
-    private void changeMethod(Integer page,Integer time){
-        new Thread(() -> {
-        try {
-            Thread.sleep(time);
-            redisTemplate.opsForHash().delete(PREFIX + "page","page_" + page);
-            redisTemplate.delete(PREFIX + "data");
-            redisTemplate.delete(PREFIX + "name");
-            log.info("----{}毫秒后延迟admin相关数据删除完毕，删除缓存key为：1号所在页面{},7号{}----",time,"page_" + page,PREFIX + "name");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }).start();
+    private void changeMethod(Integer page, Integer time){
+        service.execute(() -> {
+            try {
+                Thread.sleep(time);
+                redisTemplate.opsForHash().delete(PREFIX + "page","page_" + page);
+                redisTemplate.delete(PREFIX + "data");
+                redisTemplate.delete(PREFIX + "name");
+                log.info("----{}毫秒后延迟admin相关数据删除完毕，删除缓存key为：1号所在页面{},7号{}----",time,"page_" + page,PREFIX + "name");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     //对admin更改状态进行双删策略
@@ -64,16 +66,16 @@ public class AdminAop {
     }
 
     private void addMethod(Collection<String> collection,Integer time){
-        new Thread(() -> {
-            try {
-                Thread.sleep(time);
-                redisTemplate.delete(collection);
-                log.info("----{}毫秒后延迟admin相关数据删除完毕，删除缓存key为：1号{},2号{},3号{},7号{}----",time,PREFIX + "page",
-                        PREFIX + "total",PREFIX + "pagenum",PREFIX + "name");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }).start();
+        service.execute(() -> {
+                    try {
+                        Thread.sleep(time);
+                        redisTemplate.delete(collection);
+                        log.info("----{}毫秒后延迟admin相关数据删除完毕，删除缓存key为：1号{},2号{},3号{},7号{}----",time,PREFIX + "page",
+                                PREFIX + "total",PREFIX + "pagenum",PREFIX + "name");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+        });
     }
 
     //对admin新增数据进行双删策略
@@ -99,17 +101,17 @@ public class AdminAop {
     }
 
     private void delMethod(Collection<String> collection,String id,Integer page,Integer time){
-        new Thread(() -> {
-            try {
-                Thread.sleep(time);
-                redisTemplate.delete(collection);
-                redisTemplate.opsForHash().delete(PREFIX + "page","page_" + page);
-                log.info("----{}毫秒后延迟admin相关数据删除完毕，删除缓存key为：1号所在页面{},2号{},3号{},6号id为{}，7号{}----",
-                        time,"page_" + page,PREFIX + "total",PREFIX + "pagenum","id_" + id,PREFIX + "name");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }).start();
+        service.execute(() -> {
+                    try {
+                        Thread.sleep(time);
+                        redisTemplate.delete(collection);
+                        redisTemplate.opsForHash().delete(PREFIX + "page","page_" + page);
+                        log.info("----{}毫秒后延迟admin相关数据删除完毕，删除缓存key为：1号所在页面{},2号{},3号{},6号id为{}，7号{}----",
+                                time,"page_" + page,PREFIX + "total",PREFIX + "pagenum","id_" + id,PREFIX + "name");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+        });
     }
 
     //对admin删除数据进行双删策略
@@ -137,7 +139,7 @@ public class AdminAop {
     }
 
     private void upMethod(Collection<String> collection,LoginUser loginUser,Integer time){
-        new Thread(() -> {
+        service.execute(() -> {
             try {
                 Thread.sleep(time);
                 redisTemplate.delete(collection);
@@ -147,7 +149,7 @@ public class AdminAop {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }).start();
+        });
     }
 
     //对admin删除数据进行双删策略
@@ -171,7 +173,7 @@ public class AdminAop {
     }
 
     private void passUpMethod(Long uid,Integer time){
-        new Thread(() -> {
+        service.execute(() -> {
             try {
                 Thread.sleep(time);
                 redisTemplate.opsForHash().delete(PREFIX + "data","uid_" + uid.toString());
@@ -179,7 +181,7 @@ public class AdminAop {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }).start();
+        });
     }
 
     //对admin删除数据进行双删策略

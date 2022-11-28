@@ -21,7 +21,7 @@ public class MakeUtil {
      * @param total 总页数
      * @return list
      */
-    public List<Integer> turnlist(int total){
+    public static List<Integer> turnlist(int total){
         int i = 1;
         List<Integer> list = new ArrayList<>();
         while(i <= total){
@@ -39,7 +39,7 @@ public class MakeUtil {
      * @param oname 旧名称
      * @return 新名称
      */
-    public String turnFileName(String oname){
+    public static String turnFileName(String oname){
         String newName = oname.substring(0,oname.lastIndexOf(".")) + "-" +
                 UUID.randomUUID() + oname.substring(oname.lastIndexOf("."));
         return newName;
@@ -49,7 +49,7 @@ public class MakeUtil {
      * 返回一个固定时间再加一个3分钟内的随机时间
      * 用于设置redis存储的过期时间，降低雪崩发生的分享
      */
-    public Integer redisttl(Integer ttl){
+    public static Integer redisttl(Integer ttl){
         Random random = new Random();
         return ttl + random.nextInt(MAXTIME);
     }
@@ -57,7 +57,7 @@ public class MakeUtil {
     /**
      * 将String转换成sql的date类型
      */
-    public Date turnDate(String date){
+    public static Date turnDate(String date){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date d = null;
         try {
@@ -69,14 +69,14 @@ public class MakeUtil {
         return newDate;
     }
 
-    public String getToken(String head){
+    public static String getToken(String head){
         String header = head.substring(head.indexOf("Authorization="));
         String header2 = header.replace("Authorization=","");
         String token = header2.substring(7);
         return token;
     }
 
-    public String getUserData(String token,String info){
+    public static String getUserData(String token,String info){
         JWT jwt = JWTUtil.parseToken(token);
         String data = (String) jwt.getPayload().getClaim(info);
         return data;
