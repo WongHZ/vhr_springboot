@@ -65,7 +65,7 @@
                 <li class="layui-nav-item"> <a href="javascript:;"><span th:text="${uname}"></span></a>
                     <dl class="layui-nav-child">
                         <!-- 二级菜单 -->
-                        <dd><a href="javascript:;"  onclick="one_set('个人信息','http://localhost:8080/myinfo','1000','600')">个人信息</a>
+                        <dd><a href="javascript:;"  onclick="one_set('个人信息','http://8.134.108.77:5408/myinfo','1000','600')">个人信息</a>
                         </dd>
 
                         <dd><a href="javascript:;" th:onclick="logout([[${port}]])">退出</a></dd>
@@ -213,12 +213,12 @@
     function logout(port) {
         $.ajax({
             type:"get",
-            url:"http://localhost:"+port+"/logouts",
+            url:"http://"+port+"/logouts",
             dataType:"json",
             success:function (data) {
                 if(data==1){
                     layer.msg("退出成功！",{icon:1,time:1000});
-                    setTimeout("window.location.href='http://localhost:8080/loginpage'",2000);return false;
+                    setTimeout("window.location.href='http://8.134.108.77:5408/loginpage'",2000);return false;
                     return false;
                 }else{
                     layer.msg("退出失败！",{icon:5,time:2000});return false;

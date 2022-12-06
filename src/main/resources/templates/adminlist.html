@@ -48,7 +48,7 @@
         </div>
     </form>
     <xblock>
-        <button class="layui-btn" onclick="admin_add('添加用户','http://localhost:8080/adminadd','600','500')"><i class="layui-icon">&#xe608;</i>添加</button>
+        <button class="layui-btn" th:onclick="admin_add('添加用户','http://'+[[${port}]]+'/adminadd','600','500')"><i class="layui-icon">&#xe608;</i>添加</button>
         <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge" th:text="${total}"></span> 条</span>
     </xblock>
     <table class="layui-table">
@@ -161,7 +161,7 @@
         layer.confirm(e==0?'确定要启用？启动后此账号将正常登录本系统。':'确定要停用？停用后此账号将无法登录本系统。',{icon: 3, title:'提示'},function(index){
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/adminstatus",
+                url:"http://8.134.108.77:5408/adminstatus",
                 data:{id:id,status:e,page:page},
                 dataType:"json",
                 success:function(data)
@@ -214,7 +214,7 @@
         layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
             $.ajax({
                 type:"post",
-                url:"http://localhost:8080/admindel",
+                url:"http://8.134.108.77:5408/admindel",
                 data:{id:id,page:page},
                 dataType:"json",
                 success:function(data){

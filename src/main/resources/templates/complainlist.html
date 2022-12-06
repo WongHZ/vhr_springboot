@@ -48,7 +48,7 @@
         </div>
     </form>
     <xblock>
-        <button class="layui-btn" th:onclick="complain_add('添加','http://localhost:'+[[${port}]]+'/complainadd','600','400')">
+        <button class="layui-btn" th:onclick="complain_add('添加','http://'+[[${port}]]+'/complainadd','600','400')">
             <i class="layui-icon">&#xe608;</i>添加
         </button>
         <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge" th:text="${total}"></span> 条</span>
@@ -92,7 +92,7 @@
                 <span th:if="${list.status eq 2}" class="layui-btn layui-btn-warm"> 已完成 </span>
             </td>
             <td class="td-manage">
-                <a title="编辑" href="javascript:;" th:onclick="complain_edit('编辑','http://localhost:'+[[${port}]]+'/complainupdate',[[${list.cpid}]],[[${list.status}]],'600','400')"
+                <a title="编辑" href="javascript:;" th:onclick="complain_edit('编辑','http://'+[[${port}]]+'/complainupdate',[[${list.cpid}]],[[${list.status}]],'600','400')"
                    class="ml-5" style="text-decoration:none">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
@@ -162,7 +162,7 @@
         layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
             $.ajax({
                 type:"post",
-                url:"http://localhost:"+port+"/complaindel",
+                url:"http://l"+port+"/complaindel",
                 data:{id:id},
                 dataType:"json",
                 success:function(data){
@@ -189,7 +189,7 @@
         layer.confirm(e==1?'确定要完成处理吗？':'确定处理中？',{icon: 3, title:'提示'},function(index){
             $.ajax({
                 type:"post",
-                url:"http://localhost:"+port+"/complainstatus",
+                url:"http://"+port+"/complainstatus",
                 data:{id:id,status:e},
                 dataType:"json",
                 success:function(data)

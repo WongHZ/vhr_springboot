@@ -125,7 +125,7 @@
             var data=data.field;
             $.ajax({
                 type:"post",
-                url:"http://localhost:"+port+"/paylistupData",
+                url:"http://"+port+"/paylistupData",
                 data:data,
                 dataType:"json",
                 success:function(data){

@@ -116,7 +116,7 @@
             var data=data.field;
             $.ajax({
                 type:"post",
-                url:"http://localhost:"+port+"/complainaddData",
+                url:"http://"+port+"/complainaddData",
                 data:data,
                 dataType:"json",
                 success:function(data){

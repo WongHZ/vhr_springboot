@@ -191,7 +191,7 @@
             var data=data.field;
             $.ajax({
                 type:"post",
-                url:"http://localhost:"+port+"/device_addData",
+                url:"http://"+port+"/device_addData",
                 data:data,
                 dataType:"json",
                 success:function(data){

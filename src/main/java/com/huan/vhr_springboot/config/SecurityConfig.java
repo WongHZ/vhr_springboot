@@ -80,11 +80,10 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
-
-     /* 创建密码加密
+    /**
+     * 创建密码加密
      * @return
-      */
-
+     */
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -92,7 +91,7 @@ public class SecurityConfig {
 
 
      /*
-     定义 Spring Security 的过滤器如何执行身份验证的 API
+     * 定义 Spring Security 的过滤器如何执行身份验证的 API
      * DaoAuthenticationProvider 最常用是用此类创建provider
      * @return
       */

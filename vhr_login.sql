@@ -11,7 +11,7 @@
  Target Server Version : 80025
  File Encoding         : 65001
 
- Date: 04/11/2022 20:32:12
+ Date: 29/11/2022 18:46:49
 */
 
 SET NAMES utf8mb4;
@@ -125,7 +125,7 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, '王先森', '$2a$10$UCRP6VCpPphOF16EWTR4r.eLQDzum/yhGGBuFwrPJMk1n8EYlEfRa', '2277012678@qq.com', 13111111124, 'uimage/sbdz-ea05acce-e2da-4e5b-b9f4-47f75b2dcaf7.png', 1);
+INSERT INTO `user` VALUES (1, '王先森', '$2a$10$rd1n0BgonhkP7aN2.fwUAOQ5hc89Kxnm38y6wlS1Xz32ADgtvXt2i', '2277012678@qq.com', 13111111125, 'uimage/sbdz-ea05acce-e2da-4e5b-b9f4-47f75b2dcaf7.png', 1);
 INSERT INTO `user` VALUES (2, '桓少', '$2a$10$hq02Ng/BdGS1AZ1QA1YpJekPRCwXln4QVX1AzYmtkBEL4lMs4x4Wu', '429509226@qq.com', 13111111112, 'uimage/cxk.png', 1);
 INSERT INTO `user` VALUES (3, '李四', '$2a$10$fYE64.VwZAzP3Aa6uuEwU.p3GmtC7tLEKluKohpYfmUyJVfWwcWMy', '429509226@qq.com', 13111111113, 'uimage/cxk.png', 0);
 INSERT INTO `user` VALUES (4, '张三', '$2a$10$tRYuJsxZSO0rQO/0VosEgOyKJFlvKhGEJBvebq8gll1ub3.omdGa2', '1277012678@qq.com', 13111111115, 'uimage/dz.png', 1);

@@ -131,7 +131,7 @@
             var port=$("input[name='port']").val();
             $.ajax({
                 type:"post",
-                url:"http://localhost:"+port+"/pro_upData",
+                url:"http://"+port+"/pro_upData",
                 data:data,
                 dataType:"json",
                 success:function(data){

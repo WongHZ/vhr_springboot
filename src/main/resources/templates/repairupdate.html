@@ -131,7 +131,7 @@
             var port=$("input[name='port']").val();
             $.ajax({
                 type:"post",
-                url:"http://localhost:"+port+"/repairupData",
+                url:"http://"+port+"/repairupData",
                 data:data,
                 dataType:"json",
                 success:function(data){
@@ -159,7 +159,7 @@
     function selecta(port){
         let cid = $('select[name="community_id"] option:selected').val();
         $.ajax({
-            url: "http://localhost:"+port+"/repairget_device",
+            url: "http://"+port+"/repairget_device",
             type: "post",
             data:{cid:cid},
             dataType:"json",

@@ -164,7 +164,7 @@
             var port=$("input[name='port']").val();
             $.ajax({
                 type:"post",
-                url:"http://localhost:"+port+"/paylistaddData",
+                url:"http://"+port+"/paylistaddData",
                 data:data,
                 dataType:"json",
                 success:function(data){

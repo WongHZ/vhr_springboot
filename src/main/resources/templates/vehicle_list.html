@@ -41,7 +41,7 @@
         </div>
     </form>
     <xblock>
-        <button class="layui-btn" th:onclick="veh_add('车辆添加','http://localhost:'+[[${port}]]+'/vehicle_add','700','400')">
+        <button class="layui-btn" th:onclick="veh_add('车辆添加','http://'+[[${port}]]+'/vehicle_add','700','400')">
             <i class="layui-icon">&#xe608;</i>添加
         </button>
         <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge" th:text="${total}"></span> 条</span>
@@ -79,7 +79,7 @@
             </td>
             <td th:text="${list.createtime}"></td>
             <td class="td-manage">
-                <a title="编辑" href="javascript:;" th:onclick="veh_edit('编辑','http://localhost:'+[[${port}]]+'/vehicle_update',[[${list.id}]],[[${current}]],'700','400')"
+                <a title="编辑" href="javascript:;" th:onclick="veh_edit('编辑','http://'+[[${port}]]+'/vehicle_update',[[${list.id}]],[[${current}]],'700','400')"
                    class="ml-5" style="text-decoration:none">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
@@ -153,7 +153,7 @@
         layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
             $.ajax({
                 type:"post",
-                url:"http://localhost:"+port+"/cardel",
+                url:"http://"+port+"/cardel",
                 data:{id:id},
                 dataType:"json",
                 success:function(data){

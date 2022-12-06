@@ -11,7 +11,7 @@
  Target Server Version : 80025
  File Encoding         : 65001
 
- Date: 04/11/2022 20:32:02
+ Date: 29/11/2022 18:46:41
 */
 
 SET NAMES utf8mb4;
@@ -94,7 +94,7 @@ CREATE TABLE `vhr_charge`  (
   `money` decimal(10, 0) NULL DEFAULT 0 COMMENT '项目收费金额（年），单位分',
   `is_deleted` tinyint(1) NULL DEFAULT 0,
   PRIMARY KEY (`charge_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '收费项目表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '收费项目表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vhr_charge
@@ -105,6 +105,8 @@ INSERT INTO `vhr_charge` VALUES (3, 1, 'HXCARC001', '光大锦绣山河C栋停�
 INSERT INTO `vhr_charge` VALUES (4, 1, 'HXCARD001', '光大锦绣山河D栋停车位', '2022-10-25 20:34:44', '2022-10-25 20:34:44', 200000, 0);
 INSERT INTO `vhr_charge` VALUES (5, 1, 'HXCARE001', '光大锦绣山河E栋停车位', '2022-10-25 20:34:53', '2022-10-25 20:34:53', 200000, 1);
 INSERT INTO `vhr_charge` VALUES (6, 3, 'BHCARA001', '百花小区A栋停车位', '2022-10-26 10:42:01', '2022-10-26 10:48:05', 180001, 0);
+INSERT INTO `vhr_charge` VALUES (7, 1, 'qwe', 'qwe', '2022-11-06 21:17:56', '2022-11-08 22:37:07', 1232, 0);
+INSERT INTO `vhr_charge` VALUES (8, 4, '234', '234', '2022-11-06 21:30:15', '2022-11-06 21:30:15', 24, 0);
 
 -- ----------------------------
 -- Table structure for vhr_community
@@ -153,7 +155,7 @@ CREATE TABLE `vhr_complaint`  (
   `is_deleted` tinyint(1) NULL DEFAULT 0,
   `admin_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '',
   PRIMARY KEY (`complaint_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '投诉表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '投诉表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vhr_complaint
@@ -162,6 +164,7 @@ INSERT INTO `vhr_complaint` VALUES (1, 1, 3, '垃圾桶很臭', '2022-10-25 15:2
 INSERT INTO `vhr_complaint` VALUES (2, 3, 2, '这路很烂！！', '2022-10-25 17:41:34', '2022-10-25 17:41:35', 1, 0, '李四');
 INSERT INTO `vhr_complaint` VALUES (3, 1, 12, '我测你们码', '2022-10-25 15:21:50', '2022-10-25 15:21:43', 2, 0, '王先森');
 INSERT INTO `vhr_complaint` VALUES (4, 1, 3, '测试', '2022-10-25 17:35:46', '2022-10-25 16:43:26', 2, 0, '张三');
+INSERT INTO `vhr_complaint` VALUES (8, 4, 3, 'sfs', '2022-11-06 21:52:28', '2022-11-06 21:52:16', 2, 1, '王先森');
 
 -- ----------------------------
 -- Table structure for vhr_device
@@ -181,7 +184,7 @@ CREATE TABLE `vhr_device`  (
   `is_deleted` tinyint(1) NULL DEFAULT 0 COMMENT '0正常，1删除',
   `type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '类型：电子设备ELE，清洁设备CLE，公共设施PUB',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '设备表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '设备表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vhr_device
@@ -200,6 +203,7 @@ INSERT INTO `vhr_device` VALUES (12, 3, 'BHAELE2022102005', 'A栋五号电梯', 
 INSERT INTO `vhr_device` VALUES (13, 3, 'BHACLA2022102001', 'A栋垃圾箱', '大勤环保', 142, 15, 20, '2022-10-20 21:55:08', '2022-10-20 11:26:47', 0, 'CLE');
 INSERT INTO `vhr_device` VALUES (14, 1, 'HXBELE20221020233', 'B栋一号电梯', '上海三菱', 200000, 1, 70, '2022-10-20 20:35:32', '2022-10-20 17:38:50', 1, 'ELE');
 INSERT INTO `vhr_device` VALUES (15, 3, 'BHBCLA2022102001', 'B栋垃圾箱1', '大勤环保', 142, 15, 20, '2022-10-21 22:48:46', '2022-10-20 11:26:47', 0, 'CLE');
+INSERT INTO `vhr_device` VALUES (16, 4, 'JYCPUB20221106803', '阿松大', '收到', 4324, 123, 23, '2022-11-06 21:59:42', '2022-11-06 21:59:34', 1, 'PUB');
 
 -- ----------------------------
 -- Table structure for vhr_estate_manager
@@ -285,7 +289,7 @@ CREATE TABLE `vhr_parking`  (
   `is_deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除，1为删除',
   `status` tinyint(1) NULL DEFAULT 0 COMMENT '使用状态，0为未使用，1为使用中',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '车位表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 121 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '车位表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vhr_parking
@@ -317,16 +321,12 @@ INSERT INTO `vhr_parking` VALUES (24, 4, 'JYHFA002', '金域华府A栋002位', '
 INSERT INTO `vhr_parking` VALUES (25, 4, 'JYHFA003', '金域华府A栋003位', '2022-10-06 17:26:30', '2022-10-06 17:26:30', 0, 0);
 INSERT INTO `vhr_parking` VALUES (26, 4, 'JYHFA004', '金域华府A栋004位', '2022-10-06 17:26:30', '2022-10-06 17:26:30', 0, 0);
 INSERT INTO `vhr_parking` VALUES (27, 4, 'JYHFA005', '金域华府A栋005位', '2022-10-06 17:26:30', '2022-10-06 17:26:30', 0, 0);
-INSERT INTO `vhr_parking` VALUES (28, 1640017927, 'ZQA001', '万达小区A栋001位', '2022-10-06 17:27:57', '2022-10-06 17:27:57', 0, 0);
-INSERT INTO `vhr_parking` VALUES (29, 1640017927, 'ZQA001', '万达小区A栋002位', '2022-10-06 17:27:57', '2022-10-06 17:27:57', 0, 0);
-INSERT INTO `vhr_parking` VALUES (30, 1640017927, 'ZQA001', '万达小区A栋003位', '2022-10-06 17:27:57', '2022-10-06 17:27:57', 0, 0);
-INSERT INTO `vhr_parking` VALUES (31, 1640017927, 'ZQA001', '万达小区A栋004位', '2022-10-06 17:27:57', '2022-10-06 17:27:57', 0, 0);
-INSERT INTO `vhr_parking` VALUES (32, 1640017927, 'ZQA001', '万达小区A栋005位', '2022-10-06 17:27:57', '2022-10-06 17:27:57', 0, 0);
 INSERT INTO `vhr_parking` VALUES (43, 1, 'HXB001', '光大锦绣山河B栋001位', '2022-10-08 11:05:19', '2022-10-08 11:05:19', 0, 0);
 INSERT INTO `vhr_parking` VALUES (44, 1, 'HXB002', '光大锦绣山河B栋002位', '2022-10-08 11:05:19', '2022-10-08 11:05:19', 0, 0);
 INSERT INTO `vhr_parking` VALUES (45, 1, 'HXB003', '光大锦绣山河B栋003位', '2022-10-08 11:05:19', '2022-10-08 11:05:19', 0, 0);
 INSERT INTO `vhr_parking` VALUES (46, 1, 'HXB004', '光大锦绣山河B栋004位', '2022-10-08 11:05:19', '2022-10-08 11:05:19', 0, 0);
 INSERT INTO `vhr_parking` VALUES (47, 1, 'HXB005', '光大锦绣山河B栋005位', '2022-10-08 11:05:19', '2022-10-08 11:05:19', 0, 0);
+INSERT INTO `vhr_parking` VALUES (121, 4, 'JYA001', '金域华府A栋001位', '2022-11-08 21:52:14', '2022-11-08 21:52:14', 0, 0);
 
 -- ----------------------------
 -- Table structure for vhr_parking_use
@@ -352,7 +352,7 @@ CREATE TABLE `vhr_parking_use`  (
 -- Records of vhr_parking_use
 -- ----------------------------
 INSERT INTO `vhr_parking_use` VALUES (1, 1, 3, 1, 1, '0', 100000, '2022-10-08 15:48:30', '2022-10-19 20:57:02', '2022-10-19', '2022-12-19', 0);
-INSERT INTO `vhr_parking_use` VALUES (4, 1, 4, 2, 2, '1', 400, '2022-10-08 21:31:14', '2022-10-08 21:31:14', '2022-10-08', '2022-12-08', 0);
+INSERT INTO `vhr_parking_use` VALUES (4, 1, 4, 2, 2, '1', 4000, '2022-10-08 21:31:14', '2022-11-08 22:05:47', '2022-10-08', '2022-10-08', 0);
 
 -- ----------------------------
 -- Table structure for vhr_paylist
@@ -370,14 +370,15 @@ CREATE TABLE `vhr_paylist`  (
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NULL DEFAULT 0,
   `admin_name` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '',
   PRIMARY KEY (`pid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '收费名细表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '收费名细表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vhr_paylist
 -- ----------------------------
 INSERT INTO `vhr_paylist` VALUES (1, 1, 1, 100002, '2022-10-26 21:10:10', '2022-10-26 21:10:11', 1, '光大锦绣山河A栋停车位3号', 0, '王先森');
 INSERT INTO `vhr_paylist` VALUES (2, 1, 1, 100000, '2022-10-26 15:41:59', '2022-10-26 15:05:54', 2, '光大锦绣山河A栋停车位4号', 0, '桓少');
-INSERT INTO `vhr_paylist` VALUES (3, 1, 1, 230000, '2022-10-26 17:18:00', '2022-10-26 17:18:00', 3, '这个人很拽很有钱，多收3000', 0, '王先森');
+INSERT INTO `vhr_paylist` VALUES (3, 1, 1, 230001, '2022-11-09 20:25:05', '2022-11-09 20:25:05', 3, '这个人很拽很有钱，多收3000.', 0, '王先森');
+INSERT INTO `vhr_paylist` VALUES (4, 3, 6, 12, '2022-11-09 20:39:41', '2022-11-09 20:39:41', 3, '12', 0, '王先森');
 
 -- ----------------------------
 -- Table structure for vhr_personnel
@@ -428,20 +429,22 @@ CREATE TABLE `vhr_repair`  (
   `admin_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '管理员id',
   `is_deleted` tinyint(0) NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '维修表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '维修表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vhr_repair
 -- ----------------------------
-INSERT INTO `vhr_repair` VALUES (1, 3, 2, 4, 'A栋三号电梯按钮不灵', '2022-10-21 10:24:40', '2022-10-21 10:24:40', 0, '桓少', 0);
+INSERT INTO `vhr_repair` VALUES (1, 3, 2, 10, 'A栋三号电梯按钮不灵', '2022-10-21 10:24:40', '2022-11-09 20:52:41', 1, '桓少', 0);
 INSERT INTO `vhr_repair` VALUES (2, 1, 1, 7, 'A栋垃圾箱爆了', '2022-10-21 11:46:18', '2022-10-21 11:46:18', 1, '王先森', 0);
 INSERT INTO `vhr_repair` VALUES (3, 1, 6, 15, 'B栋垃圾箱爆了', '2022-10-21 11:50:17', '2022-10-21 11:50:17', 2, '王先森', 0);
-INSERT INTO `vhr_repair` VALUES (4, 1, 3, 1, '不太稳', '2022-10-22 17:53:47', '2022-10-25 15:00:30', 1, '王先森', 0);
+INSERT INTO `vhr_repair` VALUES (4, 1, 3, 1, '不太稳', '2022-10-22 17:53:47', '2022-10-25 15:00:30', 2, '王先森', 0);
 INSERT INTO `vhr_repair` VALUES (5, 3, 3, 3, '43', '2022-10-22 17:57:09', '2022-10-22 17:57:09', 0, '王先森', 1);
 INSERT INTO `vhr_repair` VALUES (6, 1, 3, 1, '34', '2022-10-22 18:03:03', '2022-10-22 18:03:03', 0, '王先森', 1);
 INSERT INTO `vhr_repair` VALUES (7, 1, 3, 1, '432', '2022-10-22 18:03:35', '2022-10-22 18:03:35', 0, '王先森', 1);
 INSERT INTO `vhr_repair` VALUES (8, 1, 3, 1, '32', '2022-10-22 18:04:23', '2022-10-22 18:04:23', 0, '王先森', 1);
 INSERT INTO `vhr_repair` VALUES (9, 3, 3, 1, '发士大夫', '2022-10-22 18:06:46', '2022-10-22 18:06:46', 0, '王先森', 1);
 INSERT INTO `vhr_repair` VALUES (10, 1, 3, 1, '432423', '2022-10-22 18:13:47', '2022-10-22 18:13:47', 0, '王先森', 1);
+INSERT INTO `vhr_repair` VALUES (11, 1, 3, 3, '萨达萨达是睇睇', '2022-11-09 21:01:45', '2022-11-09 21:14:59', 0, '王先森', 0);
+INSERT INTO `vhr_repair` VALUES (12, 1, 3, 1, '发射点犯得上', '2022-11-09 22:02:37', '2022-11-09 22:02:37', 0, '王先森', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

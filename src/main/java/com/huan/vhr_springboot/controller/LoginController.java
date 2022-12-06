@@ -42,26 +42,20 @@ import java.util.concurrent.TimeUnit;
 @Controller
 public class LoginController {
     private static final Integer WEEKTTL = 604800;
-    @Autowired
+
     @Resource
     AuthenticationManager authenticationManager;
     @Resource
-    @Autowired
     PasswordEncoder passwordEncoder;
     @Resource
-    @Autowired
     RedisTemplate<String,Object> redisTemplate;
     @Resource
-    @Autowired
     AdminService adminService;
     @Resource
-    @Autowired
     MakeUtil makeUtil;
     @Resource
-    @Autowired
     ComplaintService complaintService;
     @Resource
-    @Autowired
     Port port;
 
 
@@ -167,6 +161,7 @@ public class LoginController {
         model.addAttribute("role_names",roleList);
         model.addAttribute("current",pageNo);
         model.addAttribute("rid",rid);
+        model.addAttribute("port",port.getPort());
         return "adminlist.html";
     }
 

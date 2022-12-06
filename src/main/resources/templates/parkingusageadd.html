@@ -212,7 +212,7 @@
             var data=data.field;
             $.ajax({
                 type:"post",
-                url:"http://localhost:"+port+"/parkinguseaddData",
+                url:"http://"+port+"/parkinguseaddData",
                 data:data,
                 dataType:"json",
                 success:function(data){

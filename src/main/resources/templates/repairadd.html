@@ -172,7 +172,7 @@
     function selecta(port){
         let cid = $('select[name="community_id"] option:selected').val();
         $.ajax({
-            url: "http://localhost:"+port+"/repairget_device",
+            url: "http://"+port+"/repairget_device",
             type: "post",
             data:{cid:cid},
             dataType:"json",
@@ -208,7 +208,7 @@
     function find_name(port){
         let pname = $('input[name="username"]').val();
         $.ajax({
-            url: "http://localhost:"+port+"/repairget_person",
+            url: "http://"+port+"/repairget_person",
             type: "post",
             data:{pname:pname},
             dataType:"json",

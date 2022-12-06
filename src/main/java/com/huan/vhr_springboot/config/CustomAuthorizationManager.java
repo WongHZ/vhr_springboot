@@ -125,6 +125,7 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
                 break;
             }
         }
+
         if(hasPermission){
             return new AuthorizationDecision(hasPermission);
         }

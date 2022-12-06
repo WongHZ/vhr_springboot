@@ -8,6 +8,7 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.huan.vhr_springboot.entity.*;
+import com.huan.vhr_springboot.entity.enums.SexEnum;
 import com.huan.vhr_springboot.mapper.*;
 import com.huan.vhr_springboot.service.*;
 import com.huan.vhr_springboot.util.MakeUtil;
@@ -65,7 +66,7 @@ public class projectTest {
     @Test
     @DisplayName("获取初次账号的密码加密")
     public void loadUserByUsername(){
-        String pass = passwordEncoder.encode("111");
+        String pass = passwordEncoder.encode("2277012678@qq.com");
         System.out.println(pass);
         boolean match = passwordEncoder.matches("111",pass);
         System.out.println(match);
@@ -144,9 +145,10 @@ public class projectTest {
     @DisplayName("成员的多表查询plusIpage的功能")
     public void sexEnum() {
         Personnel personnel = new Personnel();
-        personnel.getSex().getSexName();
-        List<Personnel> list = personnelMapper.selectPage((1-1)*5L,5L,null);
-        list.forEach(System.out::println);
+        personnel.setSex(SexEnum.FEMALE);
+        System.out.println(personnel.getSex().getSexName());
+        //List<Personnel> list = personnelMapper.selectPage((1-1)*5L,5L,null);
+        //list.forEach(System.out::println);
     }
 
     @Test

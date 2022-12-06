@@ -41,6 +41,7 @@ spring:
           enabled: true
 
   redis:
+    #host: 192.168.110.129
     host: 192.168.240.128
     port: 6379
     pool:

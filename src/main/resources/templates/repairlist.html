@@ -48,7 +48,7 @@
         </div>
     </form>
     <xblock>
-        <button class="layui-btn" th:onclick="repair_add('添加','http://localhost:'+[[${port}]]+'/repairadd','1000','550')">
+        <button class="layui-btn" th:onclick="repair_add('添加','http://'+[[${port}]]+'/repairadd','1000','550')">
             <i class="layui-icon">&#xe608;</i>添加
         </button>
         <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge" th:text="${total}"></span> 条</span>
@@ -97,7 +97,7 @@
             </td>
             <td class="td-manage">
                 <a title="编辑" href="javascript:;"
-                   th:onclick="repair_edit('编辑','http://localhost:'+[[${port}]]+'/repairupdate',[[${list.rid}]],[[${list.status}]],'1000','550')"
+                   th:onclick="repair_edit('编辑','http://'+[[${port}]]+'/repairupdate',[[${list.rid}]],[[${list.status}]],'1000','550')"
                    class="ml-5" style="text-decoration:none">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
@@ -169,7 +169,7 @@
         layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
             $.ajax({
                 type:"post",
-                url:"http://localhost:"+port+"/repairdel",
+                url:"http://"+port+"/repairdel",
                 data:{id:id},
                 dataType:"json",
                 success:function(data){
@@ -196,7 +196,7 @@
         layer.confirm(e==1?'确定要完成处理吗？':'确定处理中？',{icon: 3, title:'提示'},function(index){
             $.ajax({
                 type:"post",
-                url:"http://localhost:"+port+"/repairstatus",
+                url:"http://"+port+"/repairstatus",
                 data:{id:id,status:e},
                 dataType:"json",
                 success:function(data)

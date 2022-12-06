@@ -111,7 +111,7 @@
             var data=data.field;
             $.ajax({
                 type:"post",
-                url:"http://localhost:"+port+"/complainupData",
+                url:"http://"+port+"/complainupData",
                 data:data,
                 dataType:"json",
                 success:function(data){

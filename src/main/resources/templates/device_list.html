@@ -48,7 +48,7 @@
         </div>
     </form>
     <xblock>
-        <button class="layui-btn" th:onclick="device_add('活动添加','http://localhost:'+[[${port}]]+'/device_add','1000','600')">
+        <button class="layui-btn" th:onclick="device_add('活动添加','http://'+[[${port}]]+'/device_add','1000','600')">
             <i class="layui-icon">&#xe608;</i>添加
         </button>
         <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge" th:text="${total}"></span> 条</span>
@@ -100,7 +100,7 @@
             <td th:text="${list.eulife}"></td>
             <td th:text="${list.createtime}"></td>
             <td class="td-manage">
-                <a title="编辑" href="javascript:;" th:onclick="device_edit('编辑','http://localhost:'+[[${port}]]+'/device_update',[[${list.did}]],[[${current}]],'1000','600')"
+                <a title="编辑" href="javascript:;" th:onclick="device_edit('编辑','http://'+[[${port}]]+'/device_update',[[${list.did}]],[[${current}]],'1000','600')"
                    class="ml-5" style="text-decoration:none">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
@@ -166,7 +166,7 @@
         layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
             $.ajax({
                 type:"post",
-                url:"http://localhost:"+port+"/devicedel",
+                url:"http://"+port+"/devicedel",
                 data:{id:id},
                 dataType:"json",
                 success:function(data){

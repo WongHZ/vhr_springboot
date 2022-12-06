@@ -125,7 +125,7 @@
                 layer.msg('收费标准必须为金额数！',{icon:5,time:2000});return false;
             }*/
             var port=$("input[name='port']").val();
-            let url='http://localhost:'+port+'/pro_addData';
+            let url='http://'+port+'/pro_addData';
             var data=data.field;
             $.ajax({
                 type:"post",
