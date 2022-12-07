@@ -14,6 +14,10 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.*;
+/**
+ * @author WongHZ
+ * @date 2022/12/7 10:35
+ */
 @Slf4j
 @Aspect
 @Component
