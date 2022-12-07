@@ -14,7 +14,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.*;
-
 @Slf4j
 @Aspect
 @Component
